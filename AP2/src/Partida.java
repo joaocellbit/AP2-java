@@ -22,7 +22,7 @@ public class Partida {
         this.rodada += 1;
         this.turno = 1;
         for (Jogador jogador : jogadores) {
-            jogador.atualizarZonaFimDeTurno();
+            jogador.atualizarFimDeTurno();
         }
         System.out.println("Rodada: " + this.rodada);
     }

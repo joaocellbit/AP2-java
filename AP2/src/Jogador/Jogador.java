@@ -11,6 +11,8 @@ public abstract class Jogador {
     protected Tecnica tecnica;
     protected boolean zona = false;
     protected int rodadasZonaRestantes;
+    protected boolean energiaConcentrada = false;
+    protected int rodadasConcentradasRestantes;
 
 
     public Jogador(String nome, int energia, Grau grau, int forca, int vidaMaxima, int agilidade, Tecnica tecnica) {
@@ -123,7 +125,7 @@ public abstract class Jogador {
         this.rodadasZonaRestantes = duracao+1;
         System.out.println(getNome() + " entrou em ZONA por " + duracao + " turno(s)!");
     }
-    public void atualizarZonaFimDeTurno(){
+    public void atualizarFimDeTurno(){
         if (zona) {
             rodadasZonaRestantes--;
             if (rodadasZonaRestantes <= 0) {
@@ -131,6 +133,21 @@ public abstract class Jogador {
                 System.out.println(getNome() + " saiu da ZONA.");
             }
         }
+        if (energiaConcentrada){
+            rodadasZonaRestantes--;
+            if (rodadasZonaRestantes <= 0) {
+                energiaConcentrada = false;
+                System.out.println(getNome() + " acabou a energia concentrada");
+            }
+        }
+    }
+    public boolean getEnergiaConcentrada() {
+        return energiaConcentrada;
+    }
+    public void setEnergiaConcentrada(int qtd) {
+        energiaConcentrada = true;
+        this.Forca += qtd;
+        this.rodadasConcentradasRestantes = 2;
     }
 
 }
