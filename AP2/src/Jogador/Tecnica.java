@@ -41,7 +41,7 @@ public class Tecnica {
                     System.out.println("Kokusen!");
                     inimigo.setVidaAtual((int) (Math.pow(Usuario.Forca, 2.5)));
                 }else {
-                    inimigo.setVidaAtual(Usuario.Forca);
+                    inimigo.setVidaAtual(Usuario.getForca());
                 }
                 break;
             default:

@@ -10,7 +10,8 @@ public abstract class Jogador {
     protected int Agilidade;
     protected Tecnica tecnica;
     protected boolean zona = false;
-    protected boolean turno = false;
+    protected int rodadasZonaRestantes;
+
 
     public Jogador(String nome, int energia, Grau grau, int forca, int vidaMaxima, int agilidade, Tecnica tecnica) {
         this.Nome = nome;
@@ -40,7 +41,7 @@ public abstract class Jogador {
         return Forca;
     }
     public void setForca(int Aumento) {
-        if (Energia >0 || Aumento<=Energia) {
+        if (Energia >0 && Aumento<=Energia) {
             Energia -= Aumento;
             this.Forca += Aumento;
             System.out.println("Sua energia aumenta seu fisico");
@@ -50,13 +51,7 @@ public abstract class Jogador {
         }
 
     }
-    public boolean getTurno() {
-        return turno;
-    }
-    public boolean setTurno(boolean turno) {
-        this.turno = turno;
-        return turno;
-    }
+
     public int  setVidaAtual(int poder) {
         System.out.println(Nome + " Leva o ataque");
         vidaAtual -= poder;
@@ -73,51 +68,69 @@ public abstract class Jogador {
     public Tecnica getTecnica() {
         return tecnica;
     }
-    public void Socar(Maldicao maldicao, Feiticeiro feiticeiro) {
-        int random = (int) (Math.random() * 101);
-        if (vidaAtual == 0) {
-            System.out.println(Nome + " Voce nao pode socar... ja esta morto");
-        }
-        else if (maldicao == null) {
+    public abstract void usarTecnicaInata(Jogador alvo);
 
-            if (random == 100 && !zona) {
-                System.out.println("Kokusen!");
-                System.out.println(Nome + " Voce entrou no estado de zona");
-                zona = true;
-                feiticeiro.setVidaAtual((int)(Math.pow(Forca,2.5)));
-            }
-            else if (!zona) {
-                feiticeiro.setVidaAtual(Forca);
-            } else {
-                if (random >= 60) {
-                    System.out.println("Kokusen!");
-                    feiticeiro.setVidaAtual((int)(Math.pow(Forca,2.5)));
-                }else {
-                    feiticeiro.setVidaAtual(Forca);
-                }
-            }
-        }else if (feiticeiro == null) {
-            if (random == 100 && !zona) {
-                System.out.println("Kokusen!");
-                zona = true;
-                System.out.println(Nome + " Voce entrou no estado de zona");
-               maldicao.setVidaAtual((int)(Math.pow(Forca,2.5)));
-            }
-            else if(!zona) {
-                maldicao.setVidaAtual(Forca);
-            } else {
-                if (random >= 60) {
-                    System.out.println("Kokusen!");
-                    maldicao.setVidaAtual((int)(Math.pow(Forca,2.5)));
-                }else {
-                    maldicao.setVidaAtual(Forca);
-                }
+    public void Socar(Jogador defensor) {
+        int random = (int) (Math.random() * 100);
 
-
-            }
+        // atacante morto não bate
+        if (getVidaAtual() == 0) {
+            System.out.println(this.getNome() + " voce nao pode socar... ja esta morto");
+            return;
         }
 
+        // atacante ainda nao esta em zona
+        if (!getZona()) {
+
+            // 1% de chance de Kokusen e entrar em zona
+            if (random == 99) {
+                System.out.println("Kokusen!");
+                entrarZona(1); // zona dura 1 turno
+                defensor.setVidaAtual((int) Math.pow(getForca(), 2.5));
+            } else {
+                // soco normal
+                defensor.setVidaAtual(getForca());
+            }
+
+            // atacante ja esta em zona
+        } else {
+
+            // enquanto estiver em zona, chance maior de Kokusen
+            if (random >= 60) {
+                System.out.println("Kokusen!");
+                entrarZona(1); // se quiser, renova a duracao
+                defensor.setVidaAtual((int) Math.pow(getForca(), 2.5));
+            } else {
+                defensor.setVidaAtual(getForca());
+            }
+        }
     }
 
+    public void Showall(){
+        System.out.println(Nome);
+        System.out.println(Grau);
+        System.out.println(Forca);
+        System.out.println(vidaAtual);
+        System.out.println(Agilidade);
+        System.out.println(tecnica.getNome());
+        System.out.println(zona);
+    }
+    public boolean getZona() {
+        return zona;
+    }
+    public void entrarZona(int duracao) {
+        this.zona = true;
+        this.rodadasZonaRestantes = duracao+1;
+        System.out.println(getNome() + " entrou em ZONA por " + duracao + " turno(s)!");
+    }
+    public void atualizarZonaFimDeTurno(){
+        if (zona) {
+            rodadasZonaRestantes--;
+            if (rodadasZonaRestantes <= 0) {
+                zona = false;
+                System.out.println(getNome() + " saiu da ZONA.");
+            }
+        }
+    }
 
 }
