@@ -24,7 +24,7 @@ Projeto da disciplina de Programação Orientada a Objetos (AP2) em Java, modela
 AP2-java/
   src/
     Main.java                # aplicação interativa (menu com Scanner)
-    Roteiro.java             # (quando criado) aplicação de roteiro, sem Scanner
+    Roteiro.java             # aplicação de roteiro, sem Scanner
     Participacao.java        # classe associativa Jogador <-> Partida
     Partida.java             # representa uma luta (1:N jogadores)
     Placar.java              # controla pontuação/estatísticas da luta
