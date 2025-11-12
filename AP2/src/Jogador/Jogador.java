@@ -101,7 +101,7 @@ public abstract class Jogador {
 
     public void Showall(){
         System.out.println("nome: "+Nome);
-        System.out.println("grau: "+Grau);
+        System.out.println("grau: "+Grau.getGraus());
         System.out.println("forca: "+Forca);
         System.out.println("vida atual: "+vidaAtual);
         System.out.println("agilidade: "+Agilidade);
