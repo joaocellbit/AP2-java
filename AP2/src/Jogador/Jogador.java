@@ -16,6 +16,7 @@ public abstract class Jogador {
 
 
     public Jogador(String nome, int energia, Grau grau, int forca, int vidaMaxima, int agilidade, Tecnica tecnica) {
+
         this.Nome = nome;
         this.Energia = energia;
         this.Grau = grau;
