@@ -15,6 +15,9 @@ public enum Grau {
     public String getGraus(){
         return descricao;
     }
+    public int getId() {
+        return id;
+    }
 
 
 }
