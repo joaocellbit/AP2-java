@@ -1,6 +1,6 @@
 import Jogador.*;
 
-import java.util.Collection;
+
 import java.util.Scanner;
 
 public class Main {
@@ -47,7 +47,7 @@ public class Main {
                 validname = true;
             }
         }
-        input.close();
+        
         int random = (int) (Math.random() * 100)+1;
 
         Feiticeiro jogador1 = new Feiticeiro(Nome1,random, Grau.Grau_1, (int) (Math.random() * 10)+1,150, (int) (Math.random() * 10)+1, ListaTecnicas.PRINCIPE_DOS_RAIOS_NEGROS.getTecnica());

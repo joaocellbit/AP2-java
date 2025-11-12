@@ -40,6 +40,7 @@ public class Tecnica {
                 if (random >= 50) {
                     System.out.println("Kokusen!");
                     inimigo.setVidaAtual((int) (Math.pow(Usuario.Forca, 2.5)));
+                    Usuario.entrarZona(1); // zona dura 1 turno
                 }else {
                     inimigo.setVidaAtual(Usuario.getForca());
                 }

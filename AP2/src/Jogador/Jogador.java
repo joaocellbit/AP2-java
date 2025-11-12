@@ -43,17 +43,7 @@ public abstract class Jogador {
     public int getForca() {
         return Forca;
     }
-    public void setForca(int Aumento) {
-        if (Energia >0 && Aumento<=Energia) {
-            Energia -= Aumento;
-            this.Forca += Aumento;
-            System.out.println("Sua energia aumenta seu fisico");
-        }
-        else {
-            System.out.println("Vc n tem energia pra isso");
-        }
-
-    }
+ 
 
     public int  setVidaAtual(int poder) {
         System.out.println(Nome + " Leva o ataque");
@@ -146,9 +136,18 @@ public abstract class Jogador {
         return energiaConcentrada;
     }
     public void setEnergiaConcentrada(int qtd) {
-        energiaConcentrada = true;
-        this.Forca += qtd;
-        this.rodadasConcentradasRestantes = 2;
+        
+        if (Energia >0 && qtd<=Energia) {
+            Energia -= qtd;
+            this.Forca += qtd;
+            energiaConcentrada = true;
+             this.rodadasConcentradasRestantes = 2;
+            System.out.println("Sua energia aumenta seu fisico");
+        }
+        else {
+            System.out.println("Vc n tem energia pra isso");
+        }
+       
     }
 
 }
