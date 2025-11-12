@@ -50,8 +50,8 @@ public class Main {
         input.close();
         int random = (int) (Math.random() * 100)+1;
 
-        Feiticeiro jogador1 = new Feiticeiro(Nome1,random, Grau.Grau_1, (int) (Math.random() * 10),150, (int) (Math.random() * 10), ListaTecnicas.PRINCIPE_DOS_RAIOS_NEGROS.getTecnica());
-        Maldicao jogador2 = new Maldicao(Nome2, random, Grau.Grau_Esp,(int) (Math.random() * 10), 150, (int) (Math.random() * 10), ListaTecnicas.TRANSFIGURACAO_INERTE.getTecnica());
+        Feiticeiro jogador1 = new Feiticeiro(Nome1,random, Grau.Grau_1, (int) (Math.random() * 10)+1,150, (int) (Math.random() * 10)+1, ListaTecnicas.PRINCIPE_DOS_RAIOS_NEGROS.getTecnica());
+        Maldicao jogador2 = new Maldicao(Nome2, random, Grau.Grau_Esp,(int) (Math.random() * 10)+1, 150, (int) (Math.random() * 10)+1, ListaTecnicas.TRANSFIGURACAO_INERTE.getTecnica());
         jogador1.Showall();
         jogador2.Showall();
         

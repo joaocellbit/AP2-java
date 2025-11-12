@@ -110,13 +110,13 @@ public abstract class Jogador {
     }
 
     public void Showall(){
-        System.out.println(Nome);
-        System.out.println(Grau);
-        System.out.println(Forca);
-        System.out.println(vidaAtual);
-        System.out.println(Agilidade);
-        System.out.println(tecnica.getNome());
-        System.out.println(zona);
+        System.out.println("nome: "+Nome);
+        System.out.println("grau: "+Grau);
+        System.out.println("forca: "+Forca);
+        System.out.println("vida atual: "+vidaAtual);
+        System.out.println("agilidade: "+Agilidade);
+        System.out.println("tecnica: "+tecnica.getNome());
+        System.out.println("zona: "+zona);
     }
     public boolean getZona() {
         return zona;
