@@ -146,7 +146,7 @@ public abstract class Jogador {
     }
     public void setEnergiaConcentrada(int qtd) {
         
-        if (Energia >0 && qtd<=Energia) {
+        if (Energia >0 && qtd<=Energia && qtd>=0) {
             Energia -= qtd;
             this.Forca += qtd;
             energiaConcentrada = true;
