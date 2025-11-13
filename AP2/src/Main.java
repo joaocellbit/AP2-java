@@ -80,7 +80,6 @@ public class Main {
         boolean validname = false;
         String Nome1="";
         String Nome2 ="";
-        
         while (!validname) {
             System.out.println("Qual o nome do jogador 1?");
             Nome1 = input.nextLine();
