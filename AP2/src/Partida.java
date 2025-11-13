@@ -29,15 +29,18 @@ public class Partida implements Comparator<Jogador> {
         System.out.println("Rodada: " + this.rodada);
     }
     public int getTurno() {
+
         return turno;
     }
+
     public void passarTurno() {
+
         this.turno += 1;
     }
+
     public void acoesTurno() {
         // Ordena jogadores por agilidade (maior primeiro)
         jogadores.sort((j1, j2) -> Integer.compare(j2.getAgilidade(), j1.getAgilidade()));
-
         System.out.println("ordem dos turnos: " + jogadores.get(0).getNome() +" e depois " + jogadores.get(1).getNome());
         Scanner input = new Scanner(System.in);
         while(jogadores.get(0).getVidaAtual() > 0 && jogadores.get(1).getVidaAtual() > 0) {
