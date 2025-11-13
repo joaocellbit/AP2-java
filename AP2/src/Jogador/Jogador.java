@@ -13,6 +13,7 @@ public abstract class Jogador {
     protected int rodadasZonaRestantes;
     protected boolean energiaConcentrada = false;
     protected int rodadasConcentradasRestantes;
+    protected int forcaBase;
 
 
     public Jogador(String nome, int energia, Grau grau, int forca, int vidaMaxima, int agilidade, Tecnica tecnica) {
@@ -21,6 +22,7 @@ public abstract class Jogador {
         this.Energia = energia;
         this.Grau = grau;
         this.Forca = forca;
+        this.forcaBase = forca;
         this.vidaMaxima = vidaMaxima;
         this.vidaAtual = vidaMaxima;
         this.Agilidade = agilidade;
@@ -43,7 +45,9 @@ public abstract class Jogador {
     public int getForca() {
         return Forca;
     }
- 
+    public void setEnergia(int energia) {
+        this.Energia += energia;
+    }
 
     public int  setVidaAtual(int poder) {
         System.out.println(Nome + " Leva o ataque");
@@ -101,12 +105,15 @@ public abstract class Jogador {
 
     public void Showall(){
         System.out.println("nome: "+Nome);
+        System.out.println("energia: "+Energia);
         System.out.println("grau: "+Grau.getGraus());
         System.out.println("forca: "+Forca);
         System.out.println("vida atual: "+vidaAtual);
         System.out.println("agilidade: "+Agilidade);
         System.out.println("tecnica: "+tecnica.getNome());
         System.out.println("zona: "+zona);
+        System.out.println("energia concentrada: "+energiaConcentrada);
+        System.out.println("--------------");   
     }
     public boolean getZona() {
         return zona;
@@ -114,6 +121,7 @@ public abstract class Jogador {
     public void entrarZona(int duracao) {
         this.zona = true;
         this.rodadasZonaRestantes = duracao+1;
+        this.Energia += 20; // ganha 20 de energia ao entrar em zona
         System.out.println(getNome() + " entrou em ZONA por " + duracao + " turno(s)!");
     }
     public void atualizarFimDeTurno(){
@@ -125,9 +133,10 @@ public abstract class Jogador {
             }
         }
         if (energiaConcentrada){
-            rodadasZonaRestantes--;
-            if (rodadasZonaRestantes <= 0) {
+            rodadasConcentradasRestantes--;
+            if (rodadasConcentradasRestantes <= 0) {
                 energiaConcentrada = false;
+                Forca = forcaBase;
                 System.out.println(getNome() + " acabou a energia concentrada");
             }
         }
