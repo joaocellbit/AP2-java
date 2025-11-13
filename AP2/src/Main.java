@@ -43,8 +43,8 @@ public class Main {
         while (!valido) {
             System.out.print("Digite o número da técnica (1-14): ");
             if (input.hasNextInt()) {
-                escolha = input.nextInt();
-                input.nextLine(); // limpar buffer
+                escolha = input.nextInt(); 
+                input.nextLine();
                 if (escolha >= 1 && escolha <= 14) {
                     valido = true;
                 } else {
@@ -52,7 +52,7 @@ public class Main {
                 }
             } else {
                 System.out.println("Por favor, digite um número válido.");
-                input.nextLine(); // limpar entrada inválida
+                input.nextLine();
             }
         }
         
@@ -101,7 +101,7 @@ public class Main {
             }
         }
         
-        // Escolha de técnicas
+       
         Tecnica tecnicaJogador1 = escolherTecnica(input, Nome1);
         Tecnica tecnicaJogador2 = escolherTecnica(input, Nome2);
         
