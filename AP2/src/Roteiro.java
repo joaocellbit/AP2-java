@@ -1,4 +1,5 @@
 import Jogador.*;
+import Jogador.Placar;
 
 public class Roteiro {
     public static void main(String[] args) {
@@ -214,8 +215,69 @@ public class Roteiro {
         personagemRapido.usarTecnicaInata(personagemLento);
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 13: REGENERAÇÃO (ENERGIA REVERSA E REGENERAR) ==========
-        System.out.println("--- 13. DEMONSTRAÇÃO DE REGENERAÇÃO ---");
+        // ========== DEMONSTRAÇÃO 13: SISTEMA DE PONTUAÇÃO ==========
+        System.out.println("--- 13. DEMONSTRAÇÃO DE SISTEMA DE PONTUAÇÃO ---");
+        System.out.println("\nO sistema registra pontos para cada ação bem-sucedida:");
+        System.out.println("- Soco normal: 10 pontos");
+        System.out.println("- Kokusen: 100 pontos");
+        System.out.println("- Técnica inata: 20 pontos");
+        
+        Feiticeiro lutador1 = new Feiticeiro(
+            "Lutador A", 
+            150, 
+            Grau.Grau_1, 
+            12, 
+            120, 
+            10, 
+            ListaTecnicas.ILIMITADO.getTecnica()
+        );
+        
+        Maldicao lutador2 = new Maldicao(
+            "Lutador B", 
+            150, 
+            Grau.Grau_1, 
+            12, 
+            120, 
+            10, 
+            ListaTecnicas.SANTUARIO.getTecnica()
+        );
+        
+        Placar placarDemo = new Placar(lutador1, lutador2);
+        
+        System.out.println("\n>> Simulando algumas ações:");
+        int pontos1 = lutador1.Socar(lutador2);
+        placarDemo.addPontos(lutador1, pontos1);
+        
+        int pontos2 = lutador2.usarTecnicaInata(lutador1);
+        placarDemo.addPontos(lutador2, pontos2);
+        
+        int pontos3 = lutador1.usarTecnicaInata(lutador2);
+        placarDemo.addPontos(lutador1, pontos3);
+        
+        System.out.println("\n>> Placar atual:");
+        placarDemo.mostrarPlacarFinal();
+        System.out.println();
+        
+        // ========== DEMONSTRAÇÃO 14: VALIDAÇÃO DE ENERGIA PARA TÉCNICAS ==========
+        System.out.println("--- 14. DEMONSTRAÇÃO DE VALIDAÇÃO DE ENERGIA ---");
+        
+        Feiticeiro semEnergia = new Feiticeiro(
+            "Sem Energia", 
+            5,  // Pouca energia (técnica custa 10)
+            Grau.Grau_1, 
+            10, 
+            100, 
+            10, 
+            ListaTecnicas.ILIMITADO.getTecnica()
+        );
+        
+        System.out.println("\n>> Tentando usar técnica sem energia suficiente:");
+        System.out.println(semEnergia.getNome() + " tem " + semEnergia.getEnergia() + " de energia (técnica custa 10)");
+        semEnergia.usarTecnicaInata(lutador2);
+        System.out.println();
+        
+        // ========== DEMONSTRAÇÃO 15: REGENERAÇÃO (ENERGIA REVERSA E REGENERAR) ==========
+        System.out.println("--- 15. DEMONSTRAÇÃO DE REGENERAÇÃO ---");
         
         // Reduzir vida dos personagens para testar regeneração
         gojo.setVidaAtual(100);  // Reduz 100 de vida
@@ -251,8 +313,8 @@ public class Roteiro {
         feiticeiroCansado.energiaReversa(50);  // Só conseguirá regenerar 2 (5 energia / 2)
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 14: POLIMORFISMO ==========
-        System.out.println("--- 14. DEMONSTRAÇÃO DE POLIMORFISMO ---");
+        // ========== DEMONSTRAÇÃO 16: POLIMORFISMO ==========
+        System.out.println("--- 16. DEMONSTRAÇÃO DE POLIMORFISMO ---");
         System.out.println("\nUsando referência de Jogador para diferentes tipos:");
         
         Jogador jogador1 = gojo;  // Feiticeiro como Jogador
@@ -266,6 +328,77 @@ public class Roteiro {
         jogador2.usarTecnicaInata(jogador1);
         System.out.println();
         
+        // ========== DEMONSTRAÇÃO 17: RELACIONAMENTO N:N E VERIFICAÇÃO DE DUPLICIDADE ==========
+        System.out.println("--- 17. DEMONSTRAÇÃO DE RELACIONAMENTO N:N (PARTICIPACAO) ---");
+        
+        Feiticeiro toge = new Feiticeiro(
+            "Toge Inumaki", 
+            80, 
+            Grau.Grau_2, 
+            8, 
+            110, 
+            14, 
+            ListaTecnicas.FALA_AMALDICOADA.getTecnica()
+        );
+        
+        Maldicao hanami = new Maldicao(
+            "Hanami", 
+            110, 
+            Grau.Grau_Esp, 
+            13, 
+            150, 
+            7, 
+            ListaTecnicas.CONSTRUCAO.getTecnica()
+        );
+        
+        System.out.println("\n>> Criando partida entre " + toge.getNome() + " e " + hanami.getNome());
+        Partida partidaDemo = new Partida(toge, hanami);
+        
+        System.out.println("\n>> Tentando adicionar jogador duplicado (verificação de duplicidade):");
+        Partida partidaDuplicada = new Partida(toge, toge); // Tenta adicionar mesmo jogador 2x
+        
+        System.out.println("\n>> Simulando combate para registrar dados no relacionamento N:N:");
+        
+        // Simula alguns ataques
+        int dano1 = toge.Socar(hanami);
+        if (dano1 > 0) {
+            Participacao part = partidaDemo.getParticipacoes().get(0);
+            part.addDano(dano1);
+            System.out.println("Dano de " + toge.getNome() + " registrado: " + dano1);
+        }
+        
+        int dano2 = hanami.usarTecnicaInata(toge);
+        if (dano2 > 0) {
+            Participacao part = partidaDemo.getParticipacoes().get(1);
+            part.addDano(dano2);
+            System.out.println("Dano de " + hanami.getNome() + " registrado: " + dano2);
+        }
+        
+        int dano3 = toge.usarTecnicaInata(hanami);
+        if (dano3 > 0) {
+            Participacao part = partidaDemo.getParticipacoes().get(0);
+            part.addDano(dano3);
+            System.out.println("Dano de " + toge.getNome() + " registrado: " + dano3);
+        }
+        
+        // Define vencedor
+        if (hanami.getVidaAtual() < toge.getVidaAtual()) {
+            partidaDemo.getParticipacoes().get(0).setVenceu(true);
+        } else {
+            partidaDemo.getParticipacoes().get(1).setVenceu(true);
+        }
+        
+        System.out.println("\n>> Exibindo informações do relacionamento N:N (Jogador ↔ Partida):");
+        System.out.println("=== INFORMAÇÕES DE PARTICIPAÇÃO ===");
+        for (Participacao p : partidaDemo.getParticipacoes()) {
+            p.mostrarInfo();
+            System.out.println("---");
+        }
+        System.out.println("✓ Classe Participacao registra: jogador, partida, danoTotal e venceu");
+        System.out.println("✓ Um jogador pode participar de várias partidas (N:N)");
+        System.out.println("✓ Verificação de duplicidade impede adicionar mesmo jogador 2x");
+        System.out.println();
+        
         // ========== RESUMO FINAL ==========
         System.out.println("=== RESUMO FINAL DA DEMONSTRAÇÃO ===");
         System.out.println("✓ Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
@@ -273,10 +406,12 @@ public class Roteiro {
         System.out.println("✓ Herança: Jogador (abstrata) → Feiticeiro e Maldicao");
         System.out.println("✓ Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
         System.out.println("✓ Enums: Grau e ListaTecnicas");
-        System.out.println("✓ Collections: List em Partida, Map em Placar");
-        System.out.println("✓ Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores)");
+        System.out.println("✓ Collections: List em Partida, Map em Placar, verificação de duplicidade");
+        System.out.println("✓ Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores), N:N (Jogador-Partida via Participacao)");
         System.out.println("✓ Sistema de Esquiva: Baseado em agilidade + dado (1-10) para socos E técnicas");
         System.out.println("✓ Regeneração: Energia Reversa (Feiticeiro 2:1) e Regenerar (Maldição 1:1)");
+        System.out.println("✓ Sistema de Pontuação: Soco (10), Kokusen (100), Técnica (20)");
+        System.out.println("✓ Validações: Energia suficiente, jogador vivo, limites de recursos, duplicidade");
         System.out.println("\n=== FIM DO ROTEIRO ===");
     }
 }

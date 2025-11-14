@@ -133,7 +133,7 @@ public abstract class Jogador {
         System.out.println("energia: "+Energia);
         System.out.println("grau: "+Grau.getGraus());
         System.out.println("forca: "+Forca);
-        System.out.println("vida atual: "+vidaAtual);
+        System.out.println("vida atual: "+vidaAtual + "/" + vidaMaxima);
         System.out.println("agilidade: "+Agilidade);
         System.out.println("tecnica: "+tecnica.getNome());
         System.out.println("zona: "+zona);

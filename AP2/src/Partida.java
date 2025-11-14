@@ -11,13 +11,44 @@ public class Partida implements Comparator<Jogador> {
     private List<Jogador> jogadores = new ArrayList<>();
     private int turno;
     private Placar placar;
+    private List<Participacao> participacoes = new ArrayList<>();
 
 
     public Partida( Jogador jogador1, Jogador jogador2) {
-
-        jogadores.add(jogador1);
-        jogadores.add(jogador2);
+        // Verificação de duplicidade antes de adicionar
+        if (!contemJogador(jogador1)) {
+            jogadores.add(jogador1);
+            participacoes.add(new Participacao(jogador1, this, 0, false));
+        }
+        if (!contemJogador(jogador2)) {
+            jogadores.add(jogador2);
+            participacoes.add(new Participacao(jogador2, this, 0, false));
+        }
         this.placar = new Placar(jogador1, jogador2);
+    }
+
+    // Verificação de duplicidade em collections
+    private boolean contemJogador(Jogador jogador) {
+        for (Jogador j : jogadores) {
+            if (j.getNome().equals(jogador.getNome())) {
+                System.out.println("Jogador " + jogador.getNome() + " já está na partida!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Participacao getParticipacao(Jogador jogador) {
+        for (Participacao p : participacoes) {
+            if (p.getJogador().equals(jogador)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public List<Participacao> getParticipacoes() {
+        return participacoes;
     }
 
     public int getRodada() {
@@ -72,12 +103,22 @@ public class Partida implements Comparator<Jogador> {
                        int pontosSoco = jogador.Socar(jogadores.get(i == 0 ? 1 : 0));
                        if (pontosSoco > 0) {
                            placar.addPontos(jogador, pontosSoco);
+                           // Registra dano na Participacao (N:N)
+                           Participacao part = getParticipacao(jogador);
+                           if (part != null) {
+                               part.addDano(pontosSoco);
+                           }
                        }
                        break;
                    case 2:
                        int pontosTecnica = jogador.usarTecnicaInata(jogadores.get(i == 0 ? 1 : 0));
                        if (pontosTecnica > 0) {
                            placar.addPontos(jogador, pontosTecnica);
+                           // Registra dano na Participacao (N:N)
+                           Participacao part = getParticipacao(jogador);
+                           if (part != null) {
+                               part.addDano(pontosTecnica);
+                           }
                        }
                        break;
                    case 3:
@@ -115,11 +156,24 @@ public class Partida implements Comparator<Jogador> {
          for (Jogador jogador : jogadores) {
                 if (jogador.getVidaAtual() > 0) {
                  System.out.println(jogador.getNome());
+                 // Marca vencedor na Participacao (N:N)
+                 Participacao part = getParticipacao(jogador);
+                 if (part != null) {
+                     part.setVenceu(true);
+                 }
                 }
           }
        
        // Mostrar placar final
        placar.mostrarPlacarFinal();
+       
+       // Mostrar informações do relacionamento N:N (Jogador <-> Partida)
+       System.out.println("\n=== INFORMAÇÕES DE PARTICIPAÇÃO (N:N) ===");
+       for (Participacao p : participacoes) {
+           p.mostrarInfo();
+           System.out.println("---");
+       }
+       
        input.close();
        
 
