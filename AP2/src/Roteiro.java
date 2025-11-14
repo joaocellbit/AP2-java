@@ -195,7 +195,7 @@ public class Roteiro {
         System.out.println("=== RESUMO FINAL DA DEMONSTRAÇÃO ===");
         System.out.println("Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
         System.out.println("Encapsulamento: Atributos privados/protected com getters/setters");
-        System.out.println("Herança: Jogador (abstrata) → Feiticeiro e Maldicao");
+        System.out.println("Herança: Jogador (abstrata) -> Feiticeiro e Maldicao");
         System.out.println("Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
         System.out.println("Enums: Grau e ListaTecnicas");
         System.out.println("Collections: List em Partida, Map em Placar");
