@@ -21,7 +21,15 @@ public class Tecnica {
 
         System.out.println("Usando Tecnica");
         
+        // Usuário morto não pode usar técnica
+        if (Usuario.getVidaAtual() <= 0) {
+            System.out.println(Usuario.getNome() + " você não pode usar técnica... já está morto");
+            return;
+        }
+       
+        Usuario.setEnergia(-consumo);
         
+        // Sistema de esquiva baseado em agilidade
         int dadoAtacante = (int) (Math.random() * 10) + 1;  
         int dadoDefensor = (int) (Math.random() * 10) + 1;   
         
@@ -32,7 +40,7 @@ public class Tecnica {
         System.out.println(inimigo.getNome() + " (Agi: " + inimigo.getAgilidade() + " + Dado: " + dadoDefensor + " = " + totalDefensor + ")");
         
         if (totalDefensor > totalAtacante) {
-            System.out.println(inimigo.getNome() + " DESVIOU da técnica!");
+            System.out.println(inimigo.getNome() + " DESVIOU da técnica! (Energia gasta: " + consumo + ")");
             return;
         }
         
@@ -42,24 +50,20 @@ public class Tecnica {
             case "Ilimitado":
                 System.out.println("Azul!");
                 inimigo.setVidaAtual(poder);
-                Usuario.setEnergia(consumo);
 
                 break;
             case "Transfiguraçao inerte":
                 System.out.println("tocado na alma");
                 inimigo.setVidaAtual(poder);
-                Usuario.setEnergia(consumo);
                 break;
             case "Santuario":
                 System.out.println("Desmantelar");
                 inimigo.setVidaAtual(poder);
-                Usuario.setEnergia(consumo);
                 break;
             case "Principe dos Raios Negros":
                 System.out.println("é o principe papai");
                 
                 int random = (int) (Math.random() * 101);
-                Usuario.setEnergia(consumo);
                 if (random >= 50) {
                     System.out.println("Kokusen!");
                     inimigo.setVidaAtual((int) (Math.pow(Usuario.Forca, 2.5)));

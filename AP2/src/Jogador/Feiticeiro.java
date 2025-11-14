@@ -33,7 +33,7 @@ public class Feiticeiro extends Jogador {
 
       
         if (vidaARegrenerar <= 0) {
-            System.out.println(Nome + " não tem energia suficiente para regenerar!");
+            System.out.println(Nome + " não tem energia suficiente para regenerar ou já está com a vida cheia!");
             return;
         }
 

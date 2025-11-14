@@ -49,7 +49,20 @@ public class Partida implements Comparator<Jogador> {
                System.out.println("Turno de " + jogador.getNome());
                System.out.println("Escolha uma ação: ");
                System.out.println("1 - Socar, 2 - Usar Técnica Inata, 3 - concentrar energia, 4 - regenerar vida(feitiçeiro gasta o dobro)");
-                int acao = input.nextInt();
+               
+               int acao = 0;
+               boolean valido = false;
+               
+               while (!valido) {
+                   if (input.hasNextInt()) {
+                       acao = input.nextInt();
+                       input.nextLine(); 
+                       valido = true;
+                   } else {
+                       System.out.println("Entrada inválida! Por favor, digite um número válido (1-4):");
+                       input.nextLine(); 
+                   }
+               }
 
                switch (acao) {
                    case 1:
@@ -64,7 +77,8 @@ public class Partida implements Comparator<Jogador> {
                        jogador.setEnergiaConcentrada(energia);
                        break;
                    case 4:
-                       System.out.println("Quanto de vida deseja regenerar?");
+                       System.out.println("Quanto de vida deseja regenerar? Você tem " + jogador.getEnergia() + " de energia esta com " + jogador.getVidaAtual() + " de vida. ");
+                       
                        int vidaRegenerar = input.nextInt();
                        if (jogador instanceof Feiticeiro) {
                            ((Feiticeiro) jogador).energiaReversa(vidaRegenerar);
