@@ -20,6 +20,24 @@ public class Tecnica {
 
 
         System.out.println("Usando Tecnica");
+        
+        
+        int dadoAtacante = (int) (Math.random() * 10) + 1;  
+        int dadoDefensor = (int) (Math.random() * 10) + 1;   
+        
+        int totalAtacante = dadoAtacante + Usuario.getAgilidade();
+        int totalDefensor = dadoDefensor + inimigo.getAgilidade();
+        
+        System.out.println(Usuario.getNome() + " (Agi: " + Usuario.getAgilidade() + " + Dado: " + dadoAtacante + " = " + totalAtacante + ")");
+        System.out.println(inimigo.getNome() + " (Agi: " + inimigo.getAgilidade() + " + Dado: " + dadoDefensor + " = " + totalDefensor + ")");
+        
+        if (totalDefensor > totalAtacante) {
+            System.out.println(inimigo.getNome() + " DESVIOU da técnica!");
+            return;
+        }
+        
+        System.out.println(inimigo.getNome() + " não conseguiu desviar da técnica!");
+        
         switch (nome) {
             case "Ilimitado":
                 System.out.println("Azul!");

@@ -176,8 +176,83 @@ public class Roteiro {
         System.out.println("Rodada avançada para: " + partida.getRodada());
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 12: POLIMORFISMO ==========
-        System.out.println("--- 12. DEMONSTRAÇÃO DE POLIMORFISMO ---");
+        // ========== DEMONSTRAÇÃO 12: SISTEMA DE ESQUIVA BASEADO EM AGILIDADE ==========
+        System.out.println("--- 12. DEMONSTRAÇÃO DE SISTEMA DE ESQUIVA ---");
+        System.out.println("\nTeste de esquiva - quanto maior a agilidade, maior a chance de desviar:");
+        
+        Feiticeiro personagemRapido = new Feiticeiro(
+            "Velocista", 
+            100, 
+            Grau.Grau_1, 
+            10, 
+            150, 
+            20,  // Agilidade muito alta
+            ListaTecnicas.BOOGIE_WOOGIE.getTecnica()
+        );
+        
+        Maldicao personagemLento = new Maldicao(
+            "Lentão", 
+            100, 
+            Grau.Grau_2, 
+            15, 
+            150, 
+            3,   // Agilidade muito baixa
+            ListaTecnicas.CONSTRUCAO.getTecnica()
+        );
+        
+        System.out.println("\n>> " + personagemLento.getNome() + " (Agi: 3) tenta acertar " + personagemRapido.getNome() + " (Agi: 20):");
+        personagemLento.Socar(personagemRapido);
+        
+        System.out.println("\n>> " + personagemRapido.getNome() + " (Agi: 20) contra-ataca " + personagemLento.getNome() + " (Agi: 3):");
+        personagemRapido.Socar(personagemLento);
+        
+        System.out.println("\n>> Teste de esquiva com técnicas:");
+        System.out.println(personagemLento.getNome() + " (Agi: 3) tenta usar técnica em " + personagemRapido.getNome() + " (Agi: 20):");
+        personagemLento.usarTecnicaInata(personagemRapido);
+        
+        System.out.println("\n>> " + personagemRapido.getNome() + " (Agi: 20) usa técnica em " + personagemLento.getNome() + " (Agi: 3):");
+        personagemRapido.usarTecnicaInata(personagemLento);
+        System.out.println();
+        
+        // ========== DEMONSTRAÇÃO 13: REGENERAÇÃO (ENERGIA REVERSA E REGENERAR) ==========
+        System.out.println("--- 13. DEMONSTRAÇÃO DE REGENERAÇÃO ---");
+        
+        // Reduzir vida dos personagens para testar regeneração
+        gojo.setVidaAtual(100);  // Reduz 100 de vida
+        sukuna.setVidaAtual(80); // Reduz 80 de vida
+        
+        System.out.println("\n>> Estado antes da regeneração:");
+        System.out.println(gojo.getNome() + " - Vida: " + gojo.getVidaAtual() + ", Energia: " + gojo.getEnergia());
+        System.out.println(sukuna.getNome() + " - Vida: " + sukuna.getVidaAtual() + ", Energia: " + sukuna.getEnergia());
+        
+        System.out.println("\n>> " + gojo.getNome() + " (Feiticeiro) usa Energia Reversa para regenerar 30 de vida:");
+        gojo.energiaReversa(30);
+        
+        System.out.println("\n>> " + sukuna.getNome() + " (Maldição) regenera 25 de vida:");
+        sukuna.regenerar(25);
+        System.out.println();
+        
+        // Teste de limites
+        System.out.println(">> Teste de limites - tentando regenerar mais que o possível:");
+        gojo.energiaReversa(500);  // Tentará regenerar mais que vida máxima permite
+        
+        System.out.println("\n>> Teste de energia insuficiente:");
+        Feiticeiro feiticeiroCansado = new Feiticeiro(
+            "Exausto", 
+            5,  // Pouca energia
+            Grau.Grau_1, 
+            10, 
+            100, 
+            10, 
+            ListaTecnicas.ILIMITADO.getTecnica()
+        );
+        feiticeiroCansado.setVidaAtual(50);  // Reduz vida
+        System.out.println("Tentando regenerar 50 de vida com apenas 5 de energia:");
+        feiticeiroCansado.energiaReversa(50);  // Só conseguirá regenerar 2 (5 energia / 2)
+        System.out.println();
+        
+        // ========== DEMONSTRAÇÃO 14: POLIMORFISMO ==========
+        System.out.println("--- 14. DEMONSTRAÇÃO DE POLIMORFISMO ---");
         System.out.println("\nUsando referência de Jogador para diferentes tipos:");
         
         Jogador jogador1 = gojo;  // Feiticeiro como Jogador
@@ -193,13 +268,15 @@ public class Roteiro {
         
         // ========== RESUMO FINAL ==========
         System.out.println("=== RESUMO FINAL DA DEMONSTRAÇÃO ===");
-        System.out.println("Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
-        System.out.println("Encapsulamento: Atributos privados/protected com getters/setters");
-        System.out.println("Herança: Jogador (abstrata) -> Feiticeiro e Maldicao");
-        System.out.println("Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
-        System.out.println("Enums: Grau e ListaTecnicas");
-        System.out.println("Collections: List em Partida, Map em Placar");
-        System.out.println("Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores)");
+        System.out.println("✓ Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
+        System.out.println("✓ Encapsulamento: Atributos privados/protected com getters/setters");
+        System.out.println("✓ Herança: Jogador (abstrata) → Feiticeiro e Maldicao");
+        System.out.println("✓ Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
+        System.out.println("✓ Enums: Grau e ListaTecnicas");
+        System.out.println("✓ Collections: List em Partida, Map em Placar");
+        System.out.println("✓ Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores)");
+        System.out.println("✓ Sistema de Esquiva: Baseado em agilidade + dado (1-10) para socos E técnicas");
+        System.out.println("✓ Regeneração: Energia Reversa (Feiticeiro 2:1) e Regenerar (Maldição 1:1)");
         System.out.println("\n=== FIM DO ROTEIRO ===");
     }
 }

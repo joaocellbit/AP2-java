@@ -76,6 +76,23 @@ public abstract class Jogador {
             return;
         }
 
+       
+        int dadoAtacante = (int) (Math.random() * 10) + 1;  
+        int dadoDefensor = (int) (Math.random() * 10) + 1;   
+        
+        int totalAtacante = dadoAtacante + this.getAgilidade();
+        int totalDefensor = dadoDefensor + defensor.getAgilidade();
+        
+        System.out.println(this.getNome() + " (Agi: " + this.getAgilidade() + " + Dado: " + dadoAtacante + " = " + totalAtacante + ")");
+        System.out.println(defensor.getNome() + " (Agi: " + defensor.getAgilidade() + " + Dado: " + dadoDefensor + " = " + totalDefensor + ")");
+        
+        if (totalDefensor > totalAtacante) {
+            System.out.println(defensor.getNome() + " DESVIOU do ataque!");
+            return;
+        }
+        
+        System.out.println(defensor.getNome() + " não conseguiu desviar!");
+
         // atacante ainda nao esta em zona
         if (!getZona()) {
 
