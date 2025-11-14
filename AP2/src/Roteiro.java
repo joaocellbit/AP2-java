@@ -27,8 +27,8 @@ public class Roteiro {
             ListaTecnicas.SANTUARIO.getTecnica()
         );
         
-        System.out.println("✓ Feiticeiro criado: " + gojo.getNome() + " - Grau: " + gojo.getGrau());
-        System.out.println("✓ Maldição criada: " + sukuna.getNome() + " - Grau: " + sukuna.getGrau());
+        System.out.println("Feiticeiro criado: " + gojo.getNome() + " - Grau: " + gojo.getGrau());
+        System.out.println("Maldição criada: " + sukuna.getNome() + " - Grau: " + sukuna.getGrau());
         System.out.println();
         
         // ========== DEMONSTRAÇÃO 2: EXIBIÇÃO DE STATUS COMPLETO ==========

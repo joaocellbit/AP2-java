@@ -1,7 +1,7 @@
+import Jogador.Feiticeiro;
 import Jogador.Jogador;
-
+import Jogador.Maldicao;
 import java.util.*;
-import java.util.Scanner;
 
 
 
@@ -59,12 +59,18 @@ public class Partida implements Comparator<Jogador> {
                        jogador.usarTecnicaInata(jogadores.get(i == 0 ? 1 : 0));
                        break;
                    case 3:
-                   System.out.println("Quanto de energia deseja concentrar?");
+                       System.out.println("Quanto de energia deseja concentrar?");
                        int energia = input.nextInt();
                        jogador.setEnergiaConcentrada(energia);
                        break;
                    case 4:
-                       jogador.setVidaAtual(1);
+                       System.out.println("Quanto de vida deseja regenerar?");
+                       int vidaRegenerar = input.nextInt();
+                       if (jogador instanceof Feiticeiro) {
+                           ((Feiticeiro) jogador).energiaReversa(vidaRegenerar);
+                       } else if (jogador instanceof Maldicao) {
+                           ((Maldicao) jogador).regenerar(vidaRegenerar);
+                       }
                        break;
                    default:
                        System.out.println("Ação inválida.");
