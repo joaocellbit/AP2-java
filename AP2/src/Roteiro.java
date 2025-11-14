@@ -169,11 +169,11 @@ public class Roteiro {
             ListaTecnicas.CHAMAS_DO_DESASTRE.getTecnica()
         );
         
-        System.out.println("✓ Criando partida entre " + megumi.getNome() + " e " + jogo.getNome());
+        System.out.println("Criando partida entre " + megumi.getNome() + " e " + jogo.getNome());
         Partida partida = new Partida(megumi, jogo);
-        System.out.println("✓ Partida criada! Rodada: " + partida.getRodada());
+        System.out.println("Partida criada! Rodada: " + partida.getRodada());
         partida.passarRodada();
-        System.out.println("✓ Rodada avançada para: " + partida.getRodada());
+        System.out.println("Rodada avançada para: " + partida.getRodada());
         System.out.println();
         
         // ========== DEMONSTRAÇÃO 12: POLIMORFISMO ==========
@@ -193,13 +193,13 @@ public class Roteiro {
         
         // ========== RESUMO FINAL ==========
         System.out.println("=== RESUMO FINAL DA DEMONSTRAÇÃO ===");
-        System.out.println("✓ Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
-        System.out.println("✓ Encapsulamento: Atributos privados/protected com getters/setters");
-        System.out.println("✓ Herança: Jogador (abstrata) → Feiticeiro e Maldicao");
-        System.out.println("✓ Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
-        System.out.println("✓ Enums: Grau e ListaTecnicas");
-        System.out.println("✓ Collections: List em Partida, Map em Placar");
-        System.out.println("✓ Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores)");
+        System.out.println("Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
+        System.out.println("Encapsulamento: Atributos privados/protected com getters/setters");
+        System.out.println("Herança: Jogador (abstrata) → Feiticeiro e Maldicao");
+        System.out.println("Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
+        System.out.println("Enums: Grau e ListaTecnicas");
+        System.out.println("Collections: List em Partida, Map em Placar");
+        System.out.println("Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores)");
         System.out.println("\n=== FIM DO ROTEIRO ===");
     }
 }
