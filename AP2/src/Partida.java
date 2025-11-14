@@ -1,6 +1,7 @@
 import Jogador.Feiticeiro;
 import Jogador.Jogador;
 import Jogador.Maldicao;
+import Jogador.Placar;
 import java.util.*;
 
 
@@ -9,12 +10,14 @@ public class Partida implements Comparator<Jogador> {
     private int rodada = 0;
     private List<Jogador> jogadores = new ArrayList<>();
     private int turno;
+    private Placar placar;
 
 
     public Partida( Jogador jogador1, Jogador jogador2) {
 
         jogadores.add(jogador1);
         jogadores.add(jogador2);
+        this.placar = new Placar(jogador1, jogador2);
     }
 
     public int getRodada() {
@@ -66,10 +69,16 @@ public class Partida implements Comparator<Jogador> {
 
                switch (acao) {
                    case 1:
-                       jogador.Socar(jogadores.get(i == 0 ? 1 : 0));
+                       int pontosSoco = jogador.Socar(jogadores.get(i == 0 ? 1 : 0));
+                       if (pontosSoco > 0) {
+                           placar.addPontos(jogador, pontosSoco);
+                       }
                        break;
                    case 2:
-                       jogador.usarTecnicaInata(jogadores.get(i == 0 ? 1 : 0));
+                       int pontosTecnica = jogador.usarTecnicaInata(jogadores.get(i == 0 ? 1 : 0));
+                       if (pontosTecnica > 0) {
+                           placar.addPontos(jogador, pontosTecnica);
+                       }
                        break;
                    case 3:
                        System.out.println("Quanto de energia deseja concentrar?");
@@ -108,6 +117,9 @@ public class Partida implements Comparator<Jogador> {
                  System.out.println(jogador.getNome());
                 }
           }
+       
+       // Mostrar placar final
+       placar.mostrarPlacarFinal();
        input.close();
        
 

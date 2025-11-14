@@ -6,9 +6,8 @@ public class Feiticeiro extends Jogador {
     }
 
     @Override
-    public void usarTecnicaInata(Jogador alvo) {
-        this.tecnica.UsarTecnica(alvo, this, 10);
-
+    public int usarTecnicaInata(Jogador alvo) {
+        return this.tecnica.UsarTecnica(alvo, this, 10);
     }
 
     public void energiaReversa(int vidaDesejada) {

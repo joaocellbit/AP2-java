@@ -14,7 +14,7 @@ public class Tecnica {
     public int getPoder() {
         return poder;
     }
-    public void UsarTecnica(Jogador inimigo,Jogador Usuario, int consumo) {
+    public int UsarTecnica(Jogador inimigo,Jogador Usuario, int consumo) {
 
 
 
@@ -24,7 +24,13 @@ public class Tecnica {
         // Usuário morto não pode usar técnica
         if (Usuario.getVidaAtual() <= 0) {
             System.out.println(Usuario.getNome() + " você não pode usar técnica... já está morto");
-            return;
+            return 0;
+        }
+        
+        // Verifica se tem energia suficiente
+        if (Usuario.getEnergia() < consumo) {
+            System.out.println(Usuario.getNome() + " não tem energia suficiente! (Necessário: " + consumo + ", Atual: " + Usuario.getEnergia() + ")");
+            return 0;
         }
        
         Usuario.setEnergia(-consumo);
@@ -41,7 +47,7 @@ public class Tecnica {
         
         if (totalDefensor > totalAtacante) {
             System.out.println(inimigo.getNome() + " DESVIOU da técnica! (Energia gasta: " + consumo + ")");
-            return;
+            return 0;
         }
         
         System.out.println(inimigo.getNome() + " não conseguiu desviar da técnica!");
@@ -50,16 +56,18 @@ public class Tecnica {
             case "Ilimitado":
                 System.out.println("Azul!");
                 inimigo.setVidaAtual(poder);
-
-                break;
+                System.out.println("+20 pontos!");
+                return 20;
             case "Transfiguraçao inerte":
                 System.out.println("tocado na alma");
                 inimigo.setVidaAtual(poder);
-                break;
+                System.out.println("+20 pontos!");
+                return 20;
             case "Santuario":
                 System.out.println("Desmantelar");
                 inimigo.setVidaAtual(poder);
-                break;
+                System.out.println("+20 pontos!");
+                return 20;
             case "Principe dos Raios Negros":
                 System.out.println("é o principe papai");
                 
@@ -68,13 +76,16 @@ public class Tecnica {
                     System.out.println("Kokusen!");
                     inimigo.setVidaAtual((int) (Math.pow(Usuario.Forca, 2.5)));
                     Usuario.entrarZona(1); // zona dura 1 turno
+                    System.out.println("+100 pontos!");
+                    return 100;
                 }else {
                     inimigo.setVidaAtual(Usuario.getForca());
+                    System.out.println("+10 pontos!");
+                    return 10;
                 }
-                break;
             default:
                 System.out.println("Sem Tecnica");
-                break;
+                return 0;
         }
     }
 }

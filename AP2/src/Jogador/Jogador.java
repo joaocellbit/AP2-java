@@ -65,15 +65,15 @@ public abstract class Jogador {
     public Tecnica getTecnica() {
         return tecnica;
     }
-    public abstract void usarTecnicaInata(Jogador alvo);
+    public abstract int usarTecnicaInata(Jogador alvo);
 
-    public void Socar(Jogador defensor) {
+    public int Socar(Jogador defensor) {
         int random = (int) (Math.random() * 100);
 
         // atacante morto não bate
         if (getVidaAtual() == 0) {
             System.out.println(this.getNome() + " voce nao pode socar... ja esta morto");
-            return;
+            return 0;
         }
 
        
@@ -88,7 +88,7 @@ public abstract class Jogador {
         
         if (totalDefensor > totalAtacante) {
             System.out.println(defensor.getNome() + " DESVIOU do ataque!");
-            return;
+            return 0;
         }
         
         System.out.println(defensor.getNome() + " não conseguiu desviar!");
@@ -101,9 +101,13 @@ public abstract class Jogador {
                 System.out.println("Kokusen!");
                 entrarZona(1); // zona dura 1 turno
                 defensor.setVidaAtual((int) Math.pow(getForca(), 2.5));
+                System.out.println("+100 pontos!");
+                return 100; // Kokusen vale 100 pontos
             } else {
                 // soco normal
                 defensor.setVidaAtual(getForca());
+                System.out.println("+10 pontos!");
+                return 10; // Soco normal vale 10 pontos
             }
 
             // atacante ja esta em zona
@@ -114,8 +118,12 @@ public abstract class Jogador {
                 System.out.println("Kokusen!");
                 entrarZona(1); // se quiser, renova a duracao
                 defensor.setVidaAtual((int) Math.pow(getForca(), 2.5));
+                System.out.println("+100 pontos!");
+                return 100; // Kokusen vale 100 pontos
             } else {
                 defensor.setVidaAtual(getForca());
+                System.out.println("+10 pontos!");
+                return 10; // Soco normal vale 10 pontos
             }
         }
     }

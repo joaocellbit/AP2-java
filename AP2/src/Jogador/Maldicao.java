@@ -6,8 +6,8 @@ public class Maldicao extends Jogador {
     }
 
     @Override
-    public void usarTecnicaInata(Jogador alvo) {
-        this.getTecnica().UsarTecnica(alvo, this, 10);
+    public int usarTecnicaInata(Jogador alvo) {
+        return this.getTecnica().UsarTecnica(alvo, this, 10);
     }
 
     public void regenerar(int vidaDesejada) {
