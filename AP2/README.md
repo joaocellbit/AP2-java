@@ -136,7 +136,7 @@ java -cp bin Main
   2. Usar Técnica Inata
   3. Concentrar Energia
   4. Regenerar Vida
-  5. Expandir Domínio
+  5. **Expandir Domínio** (última cartada estratégica - requer vida < 30 e 50 energia)
 - Placar e estatísticas finais
 
 #### App Roteiro (Roteiro.java)
