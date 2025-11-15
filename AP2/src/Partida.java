@@ -81,7 +81,7 @@ public class Partida implements Comparator<Jogador> {
                Jogador jogador = jogadores.get(i);
                System.out.println("Turno de " + jogador.getNome());
                System.out.println("Escolha uma ação: ");
-               System.out.println("1 - Socar, 2 - Usar Técnica Inata, 3 - concentrar energia, 4 - regenerar vida(feitiçeiro gasta o dobro)");
+               System.out.println("1 - Socar, 2 - Usar Técnica Inata, 3 - concentrar energia, 4 - regenerar vida(feitiçeiro gasta o dobro), 5 - Expandir Domínio");
                
                int acao = 0;
                boolean valido = false;
@@ -92,7 +92,7 @@ public class Partida implements Comparator<Jogador> {
                        input.nextLine(); 
                        valido = true;
                    } else {
-                       System.out.println("Entrada inválida! Por favor, digite um número válido (1-4):");
+                       System.out.println("Entrada inválida! Por favor, digite um número válido (1-5):");
                        input.nextLine(); 
                    }
                }
@@ -131,6 +131,19 @@ public class Partida implements Comparator<Jogador> {
                        int vidaRegenerar = input.nextInt();
                        if (jogador instanceof Regeneravel) {
                            ((Regeneravel) jogador).regenerarVida(vidaRegenerar);
+                       }
+                       break;
+                   case 5:
+                       if (jogador.getVidaAtual() >= 30) {
+                           System.out.println("Você precisa estar com vida abaixo de 30 para expandir o domínio!");
+                           System.out.println("Vida atual: " + jogador.getVidaAtual());
+                       } else if (jogador.getEnergia() < 50) {
+                           System.out.println("Você precisa de 50 de energia para expandir o domínio!");
+                           System.out.println("Energia atual: " + jogador.getEnergia());
+                       } else {
+                           jogador.getTecnica().ExpandirDominio();
+                           jogador.setEnergia(-50);
+                           System.out.println("Energia restante: " + jogador.getEnergia());
                        }
                        break;
                    default:

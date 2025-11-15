@@ -65,6 +65,9 @@ public abstract class Jogador {
     public Tecnica getTecnica() {
         return tecnica;
     }
+    public void setTecnica(Tecnica tecnica) {
+        this.tecnica = tecnica;
+    }
     public abstract int usarTecnicaInata(Jogador alvo);
 
     public int Socar(Jogador defensor) {
