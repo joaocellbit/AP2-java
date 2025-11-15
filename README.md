@@ -1,173 +1,264 @@
-# AP2 – Sistema de Batalha em Turnos (Jujutsu Kaisen)
+# Sistema de Batalha Jujutsu Kaisen ⚔️
 
-Projeto da disciplina de Programação Orientada a Objetos (AP2) em Java, modelando um **sistema de luta em turnos** inspirado em *Jujutsu Kaisen*. O foco é demonstrar os principais conceitos de POO (abstração, encapsulamento, herança, polimorfismo, relacionamentos, collections, etc.) em um jogo de console.
+## 📖 Descrição
 
-## Visão geral do jogo
+Jogo de batalha por turnos inspirado em Jujutsu Kaisen, implementado em Java com foco nos pilares de Programação Orientada a Objetos (POO). O sistema permite combates entre Feiticeiros e Maldições, cada um com técnicas inatas únicas, sistema de energia, regeneração e expansão de domínio.
 
-* Um **Feiticeiro Jujutsu** enfrenta uma **Maldição** em um combate em turnos.
-* Cada **Jogador** possui:
+## 🎮 Funcionalidades Principais
 
-  * nome, vida, energia amaldiçoada, força, agilidade;
-  * **Grau** (rank, ex.: Grau 4, Grau 3, ...);
-  * uma **Técnica Inata** escolhida de um `enum` de técnicas famosas.
-* Em cada turno, o jogador pode:
+### Sistema de Combate
+- **Socos**: Ataque básico com chance de acertar baseada em agilidade
+- **Técnicas Inatas**: 14 técnicas únicas com poderes especiais
+- **Kokusen**: Ataque crítico poderoso (chance de ativar em zona)
+- **Sistema de Zona**: Estado temporário que aumenta chance de Kokusen
+- **Expansão de Domínio**: O jujutsu de mais alto nível! Última cartada estratégica que garante acerto de todas as técnicas (requer vida < 30 e 50 de energia)
+- **Esquiva**: Baseada em agilidade + dado (1-10)
 
-  * **Socar** o oponente;
-  * **Concentrar energia** para aumentar força/energia;
-  * **Usar técnica inata**;
-  *  **Recuperar vida** com algum custo.
-* O combate termina quando a vida de um dos dois chega a 0.
+### Sistema de Energia
+- **Concentração de Energia**: Converte energia em força temporariamente
+- **Regeneração de Vida**: 
+  - Feiticeiro: custo 2:1 (2 energia por 1 vida) via Energia Reversa
+  - Maldição: custo 1:1 (1 energia por 1 vida)
 
-## Estrutura do projeto
+### Sistema de Pontuação
+- Soco normal: 10 pontos
+- Kokusen: 100 pontos
+- Técnica inata: 20 pontos
 
-```text
-AP2-java/
-  src/
-    Main.java                # aplicação interativa (menu com Scanner)
-    Roteiro.java             # aplicação de roteiro, sem Scanner
-    Participacao.java        # classe associativa Jogador <-> Partida
-    Partida.java             # representa uma luta (1:N jogadores)
-    Placar.java              # controla pontuação/estatísticas da luta
-    Jogador/
-      Jogador.java           # classe abstrata base
-      Feiticeiro.java        # subclasse de Jogador (feiticeiro jujutsu)
-      Maldicao.java          # subclasse de Jogador (espírito amaldiçoado)
-      Tecnica.java           # representação de uma técnica inata
-      Grau.java              # enum de graus (Grau 4, Grau Especial, etc.)
-      ListaTecnicas.java     # enum de técnicas famosas de Jujutsu Kaisen
+## 🎯 Técnicas Inatas Disponíveis
+
+1. **Ilimitado** (Poder: 25) - "Azul!"
+2. **Transfiguração Inerte** (Poder: 20) - "Tocado na alma!"
+3. **Santuário** (Poder: 20) - "Desmantelar!"
+4. **Príncipe dos Raios Negros** (Poder: 25) - 50% chance de Kokusen
+5. **Dez Sombras** (Poder: 20) - "Mahoraga!"
+6. **Proporção** (Poder: 20) - "7:3!"
+7. **Fala Amaldiçoada** (Poder: 20) - "Exploda!"
+8. **Boogie Woogie** (Poder: 22) - "Palmas!"
+9. **Feitiço de Projeção** (Poder: 20) - "24 frames!"
+10. **Manipulação de Sangue** (Poder: 21) - "Sangue perfurante!"
+11. **Manipulação de Espíritos Amaldiçoados** (Poder: 23) - "Uzumaki!"
+12. **Chamas do Desastre** (Poder: 20) - "Meteoro!"
+13. **Construção** (Poder: 17) - "Floresta!"
+14. **Cópia** (Poder: 0) - Copia a técnica do oponente
+
+## 🏗️ Estrutura do Projeto
+
+### Pilares de POO Implementados
+
+#### ✅ Abstração
+- Classes: `Jogador` (abstrata), `Feiticeiro`, `Maldicao`, `Tecnica`, `Partida`, `Participacao`, `Placar`
+- Interface: `Regeneravel`
+- Enums: `Grau`, `ListaTecnicas`
+
+#### ✅ Encapsulamento
+- Atributos `private`/`protected` com getters/setters
+- Validações nos métodos de ação
+
+#### ✅ Herança
+```
+Jogador (abstrata)
+├── Feiticeiro
+└── Maldicao
 ```
 
-> Se o nome de alguma classe `main` for diferente no seu código (por exemplo, `AppInterativo` em vez de `Main`), ajuste os comandos abaixo para o nome real da classe.
+#### ✅ Polimorfismo
+- `usarTecnicaInata()` sobrescrito em cada subclasse
+- `regenerarVida()` implementado diferentemente por Feiticeiro/Maldição
+- Referências de `Jogador` para diferentes tipos
 
-## Conceitos de POO demonstrados
+#### ✅ Interface Própria
+- `Regeneravel` implementada por `Feiticeiro` e `Maldicao`
+- Métodos: `regenerarVida()`, `podeRegenerarVida()`, `getCustoRegeneracao()`
 
-* **Abstração**
+### Relacionamentos
 
-  * Várias classes de domínio: `Jogador`, `Feiticeiro`, `Maldicao`, `Tecnica`, `Partida`, `Placar`, `Participacao`.
-  * `Grau` e `ListaTecnicas` modelam conceitos do universo de Jujutsu Kaisen.
-* **Encapsulamento**
+- **1:1** - Partida ↔ Placar (composição)
+- **1:N** - Partida → Jogadores
+- **N:N** - Jogador ↔ Partida (via `Participacao`)
 
-  * Atributos privados nas classes de domínio.
-  * Métodos garantem invariantes (vida não negativa, controle da "zona", etc.).
-* **Herança**
+### Collections e Ordenação
 
-  * `Jogador` é uma classe abstrata; `Feiticeiro` e `Maldicao` estendem `Jogador`.
-* **Polimorfismo**
+- `List<Jogador>` com verificação de duplicidade
+- `Map<Jogador, Integer>` para placar
+- `jogadores.sort()` por agilidade (ordem decrescente)
 
-  * Métodos definidos em `Jogador` e sobrescritos nas subclasses (por exemplo, uso da técnica inata).
-  * Uso de variáveis/coleções do tipo `Jogador` para armazenar diferentes personagens concretos.
-* **Relacionamentos**
+## 📂 Estrutura de Arquivos
 
-  * 1:1: `Partida` ↔ `Placar`.
-  * 1:N: `Partida` → lista de `Jogador`.
-  * N:N: `Jogador` ↔ `Partida` via `Participacao` (classe associativa), com vínculo bidirecional.
-* **Collections e ordenação**
+```
+AP2/
+├── src/
+│   ├── Main.java                    # App interativo (menu + Scanner)
+│   ├── Roteiro.java                 # App determinístico (demonstração)
+│   ├── Partida.java                 # Sistema de turnos e combate
+│   ├── Participacao.java            # Relacionamento N:N
+│   └── Jogador/
+│       ├── Jogador.java             # Classe abstrata base
+│       ├── Feiticeiro.java          # Subclasse com Energia Reversa
+│       ├── Maldicao.java            # Subclasse com Regeneração
+│       ├── Regeneravel.java         # Interface de regeneração
+│       ├── Tecnica.java             # Sistema de técnicas e domínio
+│       ├── ListaTecnicas.java       # Enum com 14 técnicas
+│       ├── Grau.java                # Enum de classificação
+│       └── Placar.java              # Sistema de pontuação
+└── README.md
+```
 
-  * Uso de `List`, `Set` ou `Map` para guardar jogadores, participações e pontos.
-  * Ordenação para exibir ranking ou estatísticas.
+## 🚀 Como Compilar e Executar
 
-## Requisitos
+### Pré-requisitos
+- Java JDK 11 ou superior
+- Terminal/Prompt de Comando
 
-* **Java Development Kit (JDK) 17+** instalado.
-* Opcional, mas recomendado: uma IDE como **IntelliJ IDEA**, **VS Code com Extensão Java** ou **Eclipse**.
-
-## Como compilar e executar (linha de comando)
-
-Abaixo, um exemplo genérico assumindo que todos os arquivos `.java` estão dentro da pasta `src/`:
-
-### 1. Compilar
-
-No terminal, dentro da pasta raiz do projeto (`AP2-java/`):
+### Compilação
 
 ```bash
-# Linux / macOS (bash)
-javac -d out $(find src -name "*.java")
+# Navegue até a pasta do projeto
+cd AP2
+
+# Compile todos os arquivos Java
+javac -d bin src/*.java src/Jogador/*.java
 ```
 
-No Windows, você pode:
+### Execução
 
-* Usar o **PowerShell** para coletar todos os `.java`:
-
-```powershell
-# PowerShell (a partir da pasta do projeto)
-Get-ChildItem -Recurse -Filter *.java src | ForEach-Object { $_.FullName } | javac -d out @-
-```
-
-Se preferir algo mais simples, você também pode entrar em `src/` e compilar manualmente, por exemplo:
-
+#### App Interativo (Main.java)
 ```bash
-cd src
-javac -d ../out *.java Jogador/*.java
+# Execute o app com menu interativo
+java -cp bin Main
 ```
 
-> O importante é que **todos os `.java` sejam compilados** para dentro da pasta `out/`.
+**Funcionalidades:**
+- Escolha nomes dos jogadores
+- Selecione técnicas inatas (1-14)
+- Sistema de turnos com 5 ações:
+  1. Socar
+  2. Usar Técnica Inata
+  3. Concentrar Energia
+  4. Regenerar Vida
+  5. **Expandir Domínio** (última cartada estratégica - requer vida < 30 e 50 energia)
+- Placar e estatísticas finais
 
-### 2. Executar a aplicação interativa (console com menu)
-
-Depois de compilar, vá para a pasta `out/`:
-
+#### App Roteiro (Roteiro.java)
 ```bash
-cd out
+# Execute o roteiro de demonstração
+java -cp bin Roteiro
 ```
 
-E execute a classe principal interativa **Main** (ela está no pacote padrão, direto em `src/`):
+**Demonstrações:**
+- 18 cenários automatizados
+- Testes de todas as mecânicas
+- Exemplos de uso dos pilares de POO
+- Validações e edge cases
 
-```bash
-java Main
+## 🎲 Mecânicas de Jogo
+
+### Sistema de Acerto/Esquiva
+```
+Total Atacante = Agilidade + Dado (1-10)
+Total Defensor = Agilidade + Dado (1-10)
+
+Se Total Defensor > Total Atacante → DESVIO
+Senão → ACERTO
 ```
 
-Essa aplicação abre o **menu de combate** no console, onde você escolhe as ações do feiticeiro e da maldição turno a turno.
+**Exceção:** Em Expansão de Domínio (o jujutsu de mais alto nível), todos os ataques acertam automaticamente - a última cartada estratégica quando a batalha está crítica!
 
-### 3. Executar a aplicação de roteiro (execução fixa)
+### Graus de Poder
+- **Grau 4** - Mais fraco
+- **Grau 3**
+- **Grau 2**
+- **Grau 1**
+- **Grau Especial** - Mais forte
 
-Quando você criar a segunda aplicação (por exemplo, `Roteiro.java` também em `src/`), basta garantir que ela tenha um método `public static void main(String[] args)` e rodar:
+### Condições de Vitória
+- Reduzir a vida do oponente a 0
+- Vencedor é determinado por:
+  1. Jogador com vida > 0
+  2. Placar de pontos
 
-````bash
-java Roteiro
-``` (execução fixa)
+## 📊 Exemplo de Combate
 
-Para o segundo app (roteiro), faça o mesmo procedimento, mas chamando a outra classe `main`:
+```
+=== RODADA 1 ===
+Turno de Satoru Gojo
+Escolha uma ação:
+1 - Socar
+2 - Usar Técnica Inata
+3 - Concentrar Energia
+4 - Regenerar Vida
+5 - Expandir Domínio (última cartada - requer vida < 30 e 50 energia)
 
-```bash
-# se Roteiro estiver no pacote padrão
-java Roteiro
+> 2
 
-# se estiver em um pacote (ex.: Jogador)
-java Jogador.Roteiro
-````
+Usando Tecnica
+Satoru Gojo (Agi: 10 + Dado: 7 = 17)
+Ryomen Sukuna (Agi: 12 + Dado: 5 = 17)
+Ryomen Sukuna não conseguiu desviar da técnica!
+Azul!
+Ryomen Sukuna Leva o ataque
++20 pontos!
+```
 
-Esse app executa uma sequência fixa de ações (por exemplo, alguns turnos predefinidos) para demonstrar as regras de forma determinística, facilitando correção.
+## 🛡️ Validações Implementadas
 
-## Como executar em uma IDE
+- ✅ Verificação de energia suficiente para ações
+- ✅ Jogador morto não pode agir
+- ✅ Limites de regeneração (não excede vida máxima)
+- ✅ Verificação de duplicidade em partidas
+- ✅ Requisitos para expansão de domínio (vida < 30, energia ≥ 50)
+- ✅ Validação de nomes de jogadores
 
-1. **Importar o projeto** na IDE ("Open Folder" ou "Open Project" na raiz `AP2-java/`).
-2. Garantir que a IDE esteja usando **JDK 17 ou superior**.
-3. Localizar a classe `Main` (aplicação interativa):
+## 🎓 Conceitos de POO Demonstrados
 
-   * Clique com o botão direito e escolha **Run 'Main.main()'**.
-4. Localizar a classe `Roteiro` (aplicação de roteiro):
+### Abstração
+- Classe `Jogador` define contrato para subclasses
+- Método abstrato `usarTecnicaInata()`
 
-   * Clique com o botão direito e escolha **Run 'Roteiro.main()'**.
+### Encapsulamento
+```java
+private int vidaAtual;
+public int getVidaAtual() { return vidaAtual; }
+protected void setVidaAtual(int dano) { ... }
+```
 
-## Como jogar (aplicação interativa)
+### Herança
+```java
+public class Feiticeiro extends Jogador { ... }
+public class Maldicao extends Jogador { ... }
+```
 
-1. Ao rodar `Main`, o programa instancia um **feiticeiro** e uma **maldição** com graus, atributos e técnicas definidos.
-2. O jogo decide quem começa (por exemplo, com base na **agilidade**).
-3. Em cada turno, o jogador da vez escolhe uma ação no menu:
+### Polimorfismo
+```java
+Jogador jogador1 = new Feiticeiro(...);
+Jogador jogador2 = new Maldicao(...);
+jogador1.usarTecnicaInata(jogador2); // Chamada polimórfica
+```
 
-   * `1` – Socar o inimigo;
-   * `2` – Concentrar energia (melhorar força/energia amaldiçoada);
-   * `3` – Usar a técnica inata;
-   * `4` – (se implementado) Recuperar vida com algum custo.
-4. Algumas ações podem ativar estados especiais, como **ZONA**, que ampliam o dano por 1 turno.
-5. O combate termina quando a vida de um dos dois chega a **0**; o programa exibe o vencedor.
+### Interface
+```java
+public interface Regeneravel {
+    void regenerarVida(int vidaDesejada);
+    boolean podeRegenerarVida(int vidaDesejada);
+    int getCustoRegeneracao();
+}
+```
 
-## Observações finais
+### Collections
+```java
+List<Jogador> jogadores = new ArrayList<>();
+Map<Jogador, Integer> pontos = new HashMap<>();
+jogadores.sort((j1, j2) -> Integer.compare(j2.getAgilidade(), j1.getAgilidade()));
+```
 
-* Este projeto foi construído com foco em **didática de POO** para a AP2, não em balanceamento perfeito de jogo.
-* O código e a modelagem foram pensados para deixar claro para o avaliador onde estão:
+## 👨‍💻 Autores
 
-  * abstração, encapsulamento, herança e polimorfismo;
-  * os diferentes tipos de relacionamentos (1:1, 1:N, N:N);
-  * uso de `enum`, collections e ordenação.
-* Ajuste livremente valores de dano, custos de energia e lista de técnicas para deixar a jogabilidade mais divertida ou mais fiel ao anime.
+Projeto desenvolvido para disciplina de Programação Orientada a Objetos.
+
+## 📄 Licença
+
+Este projeto é educacional e baseado na obra Jujutsu Kaisen de Gege Akutami.
+
+---
+
+**Desenvolvido com ☕ e Java**
