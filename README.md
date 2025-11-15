@@ -15,7 +15,7 @@ Projeto da disciplina de Programação Orientada a Objetos (AP2) em Java, modela
   * **Socar** o oponente;
   * **Concentrar energia** para aumentar força/energia;
   * **Usar técnica inata**;
-  * (Opcional no teu código) **Recuperar vida** com algum custo.
+  *  **Recuperar vida** com algum custo.
 * O combate termina quando a vida de um dos dois chega a 0.
 
 ## Estrutura do projeto
