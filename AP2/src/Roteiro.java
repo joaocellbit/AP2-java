@@ -274,6 +274,8 @@ public class Roteiro {
         System.out.println("✓ Feiticeiro implementa Regeneravel (custo 2:1)");
         System.out.println("✓ Maldicao implementa Regeneravel (custo 1:1)");
         System.out.println("✓ Polimorfismo: array de Regeneravel com ambas as classes");
+        System.out.println("✓ Validação centralizada via podeRegenerarVida()");
+        System.out.println("✓ Custo calculado dinamicamente via getCustoRegeneracao()");
         System.out.println();
         
         // ========== DEMONSTRAÇÃO 14: SISTEMA DE PONTUAÇÃO ==========
@@ -348,16 +350,16 @@ public class Roteiro {
         System.out.println(gojo.getNome() + " - Vida: " + gojo.getVidaAtual() + ", Energia: " + gojo.getEnergia());
         System.out.println(sukuna.getNome() + " - Vida: " + sukuna.getVidaAtual() + ", Energia: " + sukuna.getEnergia());
         
-        System.out.println("\n>> " + gojo.getNome() + " (Feiticeiro) usa Energia Reversa para regenerar 30 de vida:");
-        gojo.energiaReversa(30);
+        System.out.println("\n>> " + gojo.getNome() + " (Feiticeiro) usa regenerarVida para regenerar 30 de vida:");
+        gojo.regenerarVida(30);
         
-        System.out.println("\n>> " + sukuna.getNome() + " (Maldição) regenera 25 de vida:");
-        sukuna.regenerar(25);
+        System.out.println("\n>> " + sukuna.getNome() + " (Maldição) usa regenerarVida para regenerar 25 de vida:");
+        sukuna.regenerarVida(25);
         System.out.println();
         
         // Teste de limites
         System.out.println(">> Teste de limites - tentando regenerar mais que o possível:");
-        gojo.energiaReversa(500);  // Tentará regenerar mais que vida máxima permite
+        gojo.regenerarVida(500);  // Tentará regenerar mais que vida máxima permite
         
         System.out.println("\n>> Teste de energia insuficiente:");
         Feiticeiro feiticeiroCansado = new Feiticeiro(
@@ -371,7 +373,7 @@ public class Roteiro {
         );
         feiticeiroCansado.setVidaAtual(50);  // Reduz vida
         System.out.println("Tentando regenerar 50 de vida com apenas 5 de energia:");
-        feiticeiroCansado.energiaReversa(50);  // Só conseguirá regenerar 2 (5 energia / 2)
+        feiticeiroCansado.regenerarVida(50);  // Só conseguirá regenerar 2 (5 energia / 2)
         System.out.println();
         
         // ========== DEMONSTRAÇÃO 17: POLIMORFISMO ==========
@@ -416,7 +418,7 @@ public class Roteiro {
         Partida partidaDemo = new Partida(toge, hanami);
         
         System.out.println("\n>> Tentando adicionar jogador duplicado (verificação de duplicidade):");
-        Partida partidaDuplicada = new Partida(toge, toge); // Tenta adicionar mesmo jogador 2x
+        new Partida(toge, toge); // Tenta adicionar mesmo jogador 2x
         
         System.out.println("\n>> Simulando combate para registrar dados no relacionamento N:N:");
         
@@ -472,7 +474,7 @@ public class Roteiro {
         System.out.println("✓ Ordenação: jogadores.sort() por agilidade em Partida");
         System.out.println("✓ Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores), N:N (Jogador-Partida via Participacao)");
         System.out.println("✓ Sistema de Esquiva: Baseado em agilidade + dado (1-10) para socos E técnicas");
-        System.out.println("✓ Regeneração: Energia Reversa (Feiticeiro 2:1) e Regenerar (Maldição 1:1)");
+        System.out.println("✓ Regeneração: Interface Regeneravel com validação e custo dinâmico (Feiticeiro 2:1, Maldição 1:1)");
         System.out.println("✓ Sistema de Pontuação: Soco (10), Kokusen (100), Técnica (20)");
         System.out.println("✓ Validações: Energia suficiente, jogador vivo, limites de recursos, duplicidade");
         System.out.println("\n=== FIM DO ROTEIRO ===");
