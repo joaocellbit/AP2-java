@@ -1,0 +1,280 @@
+@startuml Diagrama de Classes - Sistema de Batalha Jujutsu Kaisen
+
+' Configurações de estilo
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor LightYellow
+    BorderColor Black
+    ArrowColor Black
+}
+
+' ============= ENUMS =============
+enum Grau {
+    Grau_4
+    Grau_3
+    Grau_2
+    Grau_1
+    Grau_Esp
+    --
+    -id: int
+    -descricao: String
+    --
+    +getGraus(): String
+    +getId(): int
+}
+
+enum ListaTecnicas {
+    ILIMITADO
+    TRANSFIGURACAO_INERTE
+    SANTUARIO
+    PRINCIPE_DOS_RAIOS_NEGROS
+    DEZ_SOMBRAS
+    PROPORCAO
+    FALA_AMALDICOADA
+    BOOGIE_WOOGIE
+    FEITICO_DE_PROJECAO
+    MANIPULACAO_DE_SANGUE
+    MANIPULACAO_DE_ESPIRITOS_AMALDICOADOS
+    CHAMAS_DO_DESASTRE
+    CONSTRUCAO
+    COPIA
+    --
+    -tecnica: Tecnica
+    --
+    +getTecnica(): Tecnica
+}
+
+' ============= INTERFACE =============
+interface Regeneravel {
+    +regenerarVida(vidaDesejada: int): void
+    +podeRegenerarVida(vidaDesejada: int): boolean
+    +getCustoRegeneracao(): int
+}
+
+' ============= CLASSES PRINCIPAIS =============
+abstract class Jogador {
+    #Nome: String
+    #Energia: int
+    #Grau: Grau
+    #Forca: int
+    #vidaMaxima: int
+    #vidaAtual: int
+    #Agilidade: int
+    #tecnica: Tecnica
+    #zona: boolean
+    #rodadasZonaRestantes: int
+    #energiaConcentrada: boolean
+    #rodadasConcentradasRestantes: int
+    #forcaBase: int
+    --
+    +Jogador(nome, energia, grau, forca, vidaMaxima, agilidade, tecnica)
+    +getNome(): String
+    +getVidaAtual(): int
+    +getEnergia(): int
+    +getGrau(): String
+    +getForca(): int
+    +getAgilidade(): int
+    +getTecnica(): Tecnica
+    +setEnergia(energia: int): void
+    +setVidaAtual(poder: int): int
+    +setTecnica(tecnica: Tecnica): void
+    +setEnergiaConcentrada(qtd: int): void
+    +Socar(defensor: Jogador): int
+    +Showall(): void
+    +getZona(): boolean
+    +getEnergiaConcentrada(): boolean
+    +entrarZona(duracao: int): void
+    +atualizarFimDeTurno(): void
+    {abstract} +usarTecnicaInata(alvo: Jogador): int
+}
+
+class Feiticeiro {
+    --
+    +Feiticeiro(nome, energia, grau, forca, vidaMaxima, agilidade, tecnica)
+    +usarTecnicaInata(alvo: Jogador): int
+    +regenerarVida(vidaDesejada: int): void
+    +podeRegenerarVida(vidaDesejada: int): boolean
+    +getCustoRegeneracao(): int
+}
+
+class Maldicao {
+    --
+    +Maldicao(nome, energia, grau, forca, vidaMaxima, agilidade, tecnica)
+    +usarTecnicaInata(alvo: Jogador): int
+    +regenerarVida(vidaDesejada: int): void
+    +podeRegenerarVida(vidaDesejada: int): boolean
+    +getCustoRegeneracao(): int
+}
+
+class Tecnica {
+    -nome: String
+    -poder: int
+    -IsInDomain: boolean
+    {static} -IsDomainClash: boolean
+    -vitoriasClash: int
+    --
+    +Tecnica(nome: String, poder: int)
+    +getNome(): String
+    +getPoder(): int
+    +ExpandirDominio(): void
+    +FecharDominio(): void
+    +isInDomain(): boolean
+    {static} +isDomainClash(): boolean
+    {static} +setDomainClash(clash: boolean): void
+    +getVitoriasClash(): int
+    +addVitoriaClash(): void
+    +resetVitoriasClash(): void
+    +UsarTecnica(inimigo, Usuario, consumo: int): int
+}
+
+class Placar {
+    -pontos: Map<Jogador, Integer>
+    --
+    +Placar(jogador1: Jogador, jogador2: Jogador)
+    +addPontos(jogador: Jogador, qtd: int): void
+    +removePontos(jogador: Jogador, qtd: int): void
+    +verPontos(jogador: Jogador): void
+    +mostrarPlacarFinal(): void
+    +getPontos(jogador: Jogador): int
+}
+
+class Partida {
+    -rodada: int
+    -jogadores: List<Jogador>
+    -turno: int
+    -placar: Placar
+    -participacoes: List<Participacao>
+    --
+    +Partida(jogador1: Jogador, jogador2: Jogador)
+    +getRodada(): int
+    +getTurno(): int
+    +getParticipacoes(): List<Participacao>
+    +passarRodada(): void
+    +passarTurno(): void
+    +acoesTurno(): void
+    +compare(j1: Jogador, j2: Jogador): int
+    -contemJogador(jogador: Jogador): boolean
+    -getParticipacao(jogador: Jogador): Participacao
+    -batalhaDeDominio(jogador1, jogador2: Jogador): void
+}
+
+class Participacao {
+    -jogador: Jogador
+    -partida: Partida
+    -danoTotal: int
+    -venceu: boolean
+    --
+    +Participacao(jogador, partida, danoTotal: int, venceu: boolean)
+    +getJogador(): Jogador
+    +getPartida(): Partida
+    +getDanoTotal(): int
+    +isVenceu(): boolean
+    +setDanoTotal(danoTotal: int): void
+    +setVenceu(venceu: boolean): void
+    +addDano(dano: int): void
+    +mostrarInfo(): void
+}
+
+class Main {
+    {static} +main(args: String[]): void
+    {static} +isInteger(str: String): boolean
+    {static} +isFloat(str: String): boolean
+    {static} +escolherTecnica(input: Scanner, nomeJogador: String): Tecnica
+}
+
+class Roteiro {
+    {static} +main(args: String[]): void
+}
+
+' ============= RELACIONAMENTOS =============
+
+' Herança
+Jogador <|-- Feiticeiro
+Jogador <|-- Maldicao
+
+' Implementação de Interface
+Feiticeiro ..|> Regeneravel
+Maldicao ..|> Regeneravel
+
+' Composição (diamante preenchido) - Placar morre com Partida
+Partida *-- "1" Placar : composição >
+
+' Agregação (diamante vazio) - Jogadores têm vida própria
+Partida o-- "2" Jogador : agregação >
+
+' Associação N:N via Participacao
+Jogador "1" -- "0..*" Participacao : participa >
+Partida "1" -- "2" Participacao : contém >
+
+' Uso/Dependência
+Jogador --> Tecnica : usa >
+Jogador --> Grau : classificado por >
+Feiticeiro ..> Tecnica : depende
+Maldicao ..> Tecnica : depende
+Placar --> Jogador : registra pontos >
+ListaTecnicas --> Tecnica : cria >
+Main ..> Feiticeiro : cria
+Main ..> Maldicao : cria
+Main ..> Partida : gerencia
+Main ..> ListaTecnicas : usa
+Roteiro ..> Feiticeiro : demonstra
+Roteiro ..> Maldicao : demonstra
+Roteiro ..> Partida : demonstra
+Roteiro ..> Placar : demonstra
+Roteiro ..> Participacao : demonstra
+Partida ..> Regeneravel : usa polimorfismo
+
+' Comparator
+Partida ..|> Comparator : implementa
+
+' Notas explicativas
+note right of Jogador
+  **Classe Abstrata**
+  - Método abstrato: usarTecnicaInata()
+  - Pilares: Abstração, Encapsulamento,
+    Herança, Polimorfismo
+end note
+
+note right of Regeneravel
+  **Interface Própria**
+  - Implementada por 2+ classes
+  - Custo regeneração:
+    * Feiticeiro: 2:1
+    * Maldição: 1:1
+end note
+
+note bottom of Partida
+  **Relacionamentos:**
+  - 1:1 com Placar (Composição)
+  - 1:N com Jogadores (Agregação)
+  - N:N com Jogador via Participacao
+  
+  **Collections:**
+  - List<Jogador>
+  - List<Participacao>
+  - Verificação de duplicidade
+  - Ordenação por agilidade
+end note
+
+note left of Tecnica
+  **Domain Expansion:**
+  - IsInDomain: acerto garantido
+  - IsDomainClash: batalha de domínios
+  - vitoriasClash: contador (3 para vencer)
+  
+  **14 Técnicas únicas com switch case**
+end note
+
+note top of Placar
+  **Composição "Todo-Parte"**
+  Nasce e morre com Partida
+  (criado no construtor)
+end note
+
+note bottom of Participacao
+  **Relacionamento N:N**
+  Jogador ↔ Partida
+  Registra: dano total e vencedor
+end note
+
+@enduml
