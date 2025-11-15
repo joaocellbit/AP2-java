@@ -1,5 +1,4 @@
 import Jogador.*;
-import Jogador.Placar;
 
 public class Roteiro {
     public static void main(String[] args) {
@@ -215,8 +214,70 @@ public class Roteiro {
         personagemRapido.usarTecnicaInata(personagemLento);
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 13: SISTEMA DE PONTUAÇÃO ==========
-        System.out.println("--- 13. DEMONSTRAÇÃO DE SISTEMA DE PONTUAÇÃO ---");
+        // ========== DEMONSTRAÇÃO 13: INTERFACE REGENERAVEL (POLIMORFISMO) ==========
+        System.out.println("--- 13. DEMONSTRAÇÃO DE INTERFACE PRÓPRIA (REGENERAVEL) ---");
+        System.out.println("\nUsando interface Regeneravel com polimorfismo:");
+        
+        // Criar jogadores e reduzir vida
+        Feiticeiro todoFerido = new Feiticeiro(
+            "Todo Ferido", 
+            100, 
+            Grau.Grau_1, 
+            10, 
+            150, 
+            10, 
+            ListaTecnicas.ILIMITADO.getTecnica()
+        );
+        
+        Maldicao hanami2 = new Maldicao(
+            "Hanami Ferido", 
+            80, 
+            Grau.Grau_Esp, 
+            12, 
+            140, 
+            9, 
+            ListaTecnicas.CONSTRUCAO.getTecnica()
+        );
+        
+        // Reduzir vida para testar regeneração
+        todoFerido.setVidaAtual(80);
+        hanami2.setVidaAtual(70);
+        
+        System.out.println("\n>> Estado antes da regeneração:");
+        System.out.println(todoFerido.getNome() + " - Vida: " + todoFerido.getVidaAtual() + ", Energia: " + todoFerido.getEnergia());
+        System.out.println(hanami2.getNome() + " - Vida: " + hanami2.getVidaAtual() + ", Energia: " + hanami2.getEnergia());
+        
+        // Usando interface Regeneravel (polimorfismo)
+        Regeneravel[] regeneraveis = {todoFerido, hanami2};
+        
+        System.out.println("\n>> Usando interface Regeneravel:");
+        for (Regeneravel r : regeneraveis) {
+            String nome = "";
+            if (r instanceof Feiticeiro) {
+                nome = ((Feiticeiro) r).getNome();
+            } else if (r instanceof Maldicao) {
+                nome = ((Maldicao) r).getNome();
+            }
+            
+            System.out.println("\n" + nome + " (Custo: " + r.getCustoRegeneracao() + " energia/vida)");
+            
+            if (r.podeRegenerarVida(30)) {
+                System.out.println("✓ Pode regenerar 30 de vida");
+                r.regenerarVida(30);
+            } else {
+                System.out.println("✗ Não pode regenerar 30 de vida");
+            }
+        }
+        
+        System.out.println("\n>> Demonstração completa da interface:");
+        System.out.println("✓ Interface Regeneravel criada com 3 métodos");
+        System.out.println("✓ Feiticeiro implementa Regeneravel (custo 2:1)");
+        System.out.println("✓ Maldicao implementa Regeneravel (custo 1:1)");
+        System.out.println("✓ Polimorfismo: array de Regeneravel com ambas as classes");
+        System.out.println();
+        
+        // ========== DEMONSTRAÇÃO 14: SISTEMA DE PONTUAÇÃO ==========
+        System.out.println("--- 14. SISTEMA DE PONTUAÇÃO ---");
         System.out.println("\nO sistema registra pontos para cada ação bem-sucedida:");
         System.out.println("- Soco normal: 10 pontos");
         System.out.println("- Kokusen: 100 pontos");
@@ -258,8 +319,8 @@ public class Roteiro {
         placarDemo.mostrarPlacarFinal();
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 14: VALIDAÇÃO DE ENERGIA PARA TÉCNICAS ==========
-        System.out.println("--- 14. DEMONSTRAÇÃO DE VALIDAÇÃO DE ENERGIA ---");
+        // ========== DEMONSTRAÇÃO 15: VALIDAÇÃO DE ENERGIA PARA TÉCNICAS ==========
+        System.out.println("--- 15. VALIDAÇÃO DE ENERGIA ---");
         
         Feiticeiro semEnergia = new Feiticeiro(
             "Sem Energia", 
@@ -276,8 +337,8 @@ public class Roteiro {
         semEnergia.usarTecnicaInata(lutador2);
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 15: REGENERAÇÃO (ENERGIA REVERSA E REGENERAR) ==========
-        System.out.println("--- 15. DEMONSTRAÇÃO DE REGENERAÇÃO ---");
+        // ========== DEMONSTRAÇÃO 16: REGENERAÇÃO (ENERGIA REVERSA E REGENERAR) ==========
+        System.out.println("--- 16. REGENERAÇÃO ---");
         
         // Reduzir vida dos personagens para testar regeneração
         gojo.setVidaAtual(100);  // Reduz 100 de vida
@@ -313,8 +374,8 @@ public class Roteiro {
         feiticeiroCansado.energiaReversa(50);  // Só conseguirá regenerar 2 (5 energia / 2)
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 16: POLIMORFISMO ==========
-        System.out.println("--- 16. DEMONSTRAÇÃO DE POLIMORFISMO ---");
+        // ========== DEMONSTRAÇÃO 17: POLIMORFISMO ==========
+        System.out.println("--- 17. POLIMORFISMO ---");
         System.out.println("\nUsando referência de Jogador para diferentes tipos:");
         
         Jogador jogador1 = gojo;  // Feiticeiro como Jogador
@@ -328,8 +389,8 @@ public class Roteiro {
         jogador2.usarTecnicaInata(jogador1);
         System.out.println();
         
-        // ========== DEMONSTRAÇÃO 17: RELACIONAMENTO N:N E VERIFICAÇÃO DE DUPLICIDADE ==========
-        System.out.println("--- 17. DEMONSTRAÇÃO DE RELACIONAMENTO N:N (PARTICIPACAO) ---");
+        // ========== DEMONSTRAÇÃO 18: RELACIONAMENTO N:N E VERIFICAÇÃO DE DUPLICIDADE ==========
+        System.out.println("--- 18. RELACIONAMENTO N:N (PARTICIPACAO) ---");
         
         Feiticeiro toge = new Feiticeiro(
             "Toge Inumaki", 
@@ -405,8 +466,10 @@ public class Roteiro {
         System.out.println("✓ Encapsulamento: Atributos privados/protected com getters/setters");
         System.out.println("✓ Herança: Jogador (abstrata) → Feiticeiro e Maldicao");
         System.out.println("✓ Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
+        System.out.println("✓ Interface própria: Regeneravel implementada por Feiticeiro e Maldicao");
         System.out.println("✓ Enums: Grau e ListaTecnicas");
         System.out.println("✓ Collections: List em Partida, Map em Placar, verificação de duplicidade");
+        System.out.println("✓ Ordenação: jogadores.sort() por agilidade em Partida");
         System.out.println("✓ Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores), N:N (Jogador-Partida via Participacao)");
         System.out.println("✓ Sistema de Esquiva: Baseado em agilidade + dado (1-10) para socos E técnicas");
         System.out.println("✓ Regeneração: Energia Reversa (Feiticeiro 2:1) e Regenerar (Maldição 1:1)");

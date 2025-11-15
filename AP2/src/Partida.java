@@ -1,7 +1,6 @@
-import Jogador.Feiticeiro;
 import Jogador.Jogador;
-import Jogador.Maldicao;
 import Jogador.Placar;
+import Jogador.Regeneravel;
 import java.util.*;
 
 
@@ -106,7 +105,7 @@ public class Partida implements Comparator<Jogador> {
                            // Registra dano na Participacao (N:N)
                            Participacao part = getParticipacao(jogador);
                            if (part != null) {
-                               part.addDano(pontosSoco);
+                               part.addDano(jogador.getForca());
                            }
                        }
                        break;
@@ -117,7 +116,7 @@ public class Partida implements Comparator<Jogador> {
                            // Registra dano na Participacao (N:N)
                            Participacao part = getParticipacao(jogador);
                            if (part != null) {
-                               part.addDano(pontosTecnica);
+                               part.addDano(jogador.getTecnica().getPoder());
                            }
                        }
                        break;
@@ -130,10 +129,8 @@ public class Partida implements Comparator<Jogador> {
                        System.out.println("Quanto de vida deseja regenerar? Você tem " + jogador.getEnergia() + " de energia esta com " + jogador.getVidaAtual() + " de vida. ");
                        
                        int vidaRegenerar = input.nextInt();
-                       if (jogador instanceof Feiticeiro) {
-                           ((Feiticeiro) jogador).energiaReversa(vidaRegenerar);
-                       } else if (jogador instanceof Maldicao) {
-                           ((Maldicao) jogador).regenerar(vidaRegenerar);
+                       if (jogador instanceof Regeneravel) {
+                           ((Regeneravel) jogador).regenerarVida(vidaRegenerar);
                        }
                        break;
                    default:

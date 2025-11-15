@@ -104,10 +104,13 @@ public class Main {
         Tecnica tecnicaJogador1 = escolherTecnica(input, Nome1);
         Tecnica tecnicaJogador2 = escolherTecnica(input, Nome2);
         
-        int random = (int) (Math.random() * 100)+1;
+        int random_energy1 = (int) (Math.random() * 100)+50;
+        int random_energy2 = (int) (Math.random() * 100)+50;
+        System.out.println("Jogador 1 terá " + random_energy1 + " de energia inicial.");
+        System.out.println("Jogador 2 terá " + random_energy2 + " de energia inicial.");    
 
-        Feiticeiro jogador1 = new Feiticeiro(Nome1,random, Grau.Grau_1, (int) (Math.random() * 10)+1,150, (int) (Math.random() * 10)+1, tecnicaJogador1);
-        Maldicao jogador2 = new Maldicao(Nome2, random, Grau.Grau_Esp,(int) (Math.random() * 10)+1, 150, (int) (Math.random() * 10)+1, tecnicaJogador2);
+        Feiticeiro jogador1 = new Feiticeiro(Nome1,random_energy1, Grau.Grau_1, (int) (Math.random() * 10)+2,150, (int) (Math.random() * 10)+1, tecnicaJogador1);
+        Maldicao jogador2 = new Maldicao(Nome2, random_energy2, Grau.Grau_Esp,(int) (Math.random() * 10)+2, 150, (int) (Math.random() * 10)+1, tecnicaJogador2);
         jogador1.Showall();
         jogador2.Showall();
         
