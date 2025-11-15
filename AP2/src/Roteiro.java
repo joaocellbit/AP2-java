@@ -83,7 +83,7 @@ public class Roteiro {
         System.out.println("\n>> Passando turno para atualizar estados...");
         gojo.atualizarFimDeTurno();
         sukuna.atualizarFimDeTurno();
-        System.out.println("✓ Estados atualizados");
+        System.out.println("[OK] Estados atualizados");
         System.out.println();
         
         // ========== DEMONSTRAÇÃO 8: MÚLTIPLAS TÉCNICAS DISPONÍVEIS ==========
@@ -109,8 +109,8 @@ public class Roteiro {
             ListaTecnicas.TRANSFIGURACAO_INERTE.getTecnica()
         );
         
-        System.out.println("✓ " + yuji.getNome() + " possui técnica: " + yuji.getTecnica().getNome());
-        System.out.println("✓ " + mahito.getNome() + " possui técnica: " + mahito.getTecnica().getNome());
+        System.out.println("[OK] " + yuji.getNome() + " possui técnica: " + yuji.getTecnica().getNome());
+        System.out.println("[OK] " + mahito.getNome() + " possui técnica: " + mahito.getTecnica().getNome());
         System.out.println();
         
         // ========== DEMONSTRAÇÃO 9: SEQUÊNCIA DE COMBATE COMPLETA ==========
@@ -262,20 +262,20 @@ public class Roteiro {
             System.out.println("\n" + nome + " (Custo: " + r.getCustoRegeneracao() + " energia/vida)");
             
             if (r.podeRegenerarVida(30)) {
-                System.out.println("✓ Pode regenerar 30 de vida");
+                System.out.println("[OK] Pode regenerar 30 de vida");
                 r.regenerarVida(30);
             } else {
-                System.out.println("✗ Não pode regenerar 30 de vida");
+                System.out.println("[X] Não pode regenerar 30 de vida");
             }
         }
         
         System.out.println("\n>> Demonstração completa da interface:");
-        System.out.println("✓ Interface Regeneravel criada com 3 métodos");
-        System.out.println("✓ Feiticeiro implementa Regeneravel (custo 2:1)");
-        System.out.println("✓ Maldicao implementa Regeneravel (custo 1:1)");
-        System.out.println("✓ Polimorfismo: array de Regeneravel com ambas as classes");
-        System.out.println("✓ Validação centralizada via podeRegenerarVida()");
-        System.out.println("✓ Custo calculado dinamicamente via getCustoRegeneracao()");
+        System.out.println("[OK] Interface Regeneravel criada com 3 métodos");
+        System.out.println("[OK] Feiticeiro implementa Regeneravel (custo 2:1)");
+        System.out.println("[OK] Maldicao implementa Regeneravel (custo 1:1)");
+        System.out.println("[OK] Polimorfismo: array de Regeneravel com ambas as classes");
+        System.out.println("[OK] Validação centralizada via podeRegenerarVida()");
+        System.out.println("[OK] Custo calculado dinamicamente via getCustoRegeneracao()");
         System.out.println();
         
         // ========== DEMONSTRAÇÃO 14: SISTEMA DE PONTUAÇÃO ==========
@@ -451,32 +451,170 @@ public class Roteiro {
             partidaDemo.getParticipacoes().get(1).setVenceu(true);
         }
         
-        System.out.println("\n>> Exibindo informações do relacionamento N:N (Jogador ↔ Partida):");
+        System.out.println("\n>> Exibindo informações do relacionamento N:N (Jogador <-> Partida):");
         System.out.println("=== INFORMAÇÕES DE PARTICIPAÇÃO ===");
         for (Participacao p : partidaDemo.getParticipacoes()) {
             p.mostrarInfo();
             System.out.println("---");
         }
-        System.out.println("✓ Classe Participacao registra: jogador, partida, danoTotal e venceu");
-        System.out.println("✓ Um jogador pode participar de várias partidas (N:N)");
-        System.out.println("✓ Verificação de duplicidade impede adicionar mesmo jogador 2x");
+        System.out.println("[OK] Classe Participacao registra: jogador, partida, danoTotal e venceu");
+        System.out.println("[OK] Um jogador pode participar de várias partidas (N:N)");
+        System.out.println("[OK] Verificação de duplicidade impede adicionar mesmo jogador 2x");
+        System.out.println();
+        
+        // ========== DEMONSTRAÇÃO 19: EXPANSÃO DE DOMÍNIO ==========
+        System.out.println("--- 19. EXPANSÃO DE DOMÍNIO ---");
+        
+        Feiticeiro gojoFerido = new Feiticeiro(
+            "Gojo Ferido", 
+            100, 
+            Grau.Grau_Esp, 
+            15, 
+            150, 
+            12, 
+            ListaTecnicas.ILIMITADO.getTecnica()
+        );
+        
+        Maldicao sukunaFerido = new Maldicao(
+            "Sukuna Ferido", 
+            100, 
+            Grau.Grau_Esp, 
+            18, 
+            150, 
+            10, 
+            ListaTecnicas.SANTUARIO.getTecnica()
+        );
+        
+        // Reduzir vida para permitir expansão de domínio
+        gojoFerido.setVidaAtual(120); // Deixa com 30 de vida
+        sukunaFerido.setVidaAtual(125); // Deixa com 25 de vida
+        
+        System.out.println("\n>> Estado inicial:");
+        System.out.println(gojoFerido.getNome() + " - Vida: " + gojoFerido.getVidaAtual() + ", Energia: " + gojoFerido.getEnergia());
+        System.out.println(sukunaFerido.getNome() + " - Vida: " + sukunaFerido.getVidaAtual() + ", Energia: " + sukunaFerido.getEnergia());
+        
+        System.out.println("\n>> Tentando expandir domínio com vida >= 30:");
+        Feiticeiro tentativaInvalida = new Feiticeiro(
+            "Teste", 
+            100, 
+            Grau.Grau_1, 
+            10, 
+            100, 
+            10, 
+            ListaTecnicas.ILIMITADO.getTecnica()
+        );
+        // Vida cheia (100), não deve permitir
+        if (tentativaInvalida.getVidaAtual() >= 30) {
+            System.out.println("[X] Bloqueado: Vida está em " + tentativaInvalida.getVidaAtual() + " (precisa estar < 30)");
+        }
+        
+        System.out.println("\n>> " + gojoFerido.getNome() + " expande seu domínio (vida < 30, 50 energia):");
+        if (gojoFerido.getVidaAtual() < 30 && gojoFerido.getEnergia() >= 50) {
+            gojoFerido.getTecnica().ExpandirDominio();
+            gojoFerido.setEnergia(-50);
+            System.out.println("Energia após expansão: " + gojoFerido.getEnergia());
+        }
+        
+        System.out.println("\n>> " + sukunaFerido.getNome() + " expande seu domínio:");
+        if (sukunaFerido.getVidaAtual() < 30 && sukunaFerido.getEnergia() >= 50) {
+            sukunaFerido.getTecnica().ExpandirDominio();
+            sukunaFerido.setEnergia(-50);
+            System.out.println("Energia após expansão: " + sukunaFerido.getEnergia());
+        }
+        
+        System.out.println("\n>> Testando acerto garantido dentro do domínio:");
+        System.out.println("\nAtaque 1 - " + gojoFerido.getNome() + " (domínio ativo):");
+        gojoFerido.usarTecnicaInata(sukunaFerido);
+        
+        System.out.println("\nAtaque 2 - " + sukunaFerido.getNome() + " (domínio ativo):");
+        sukunaFerido.usarTecnicaInata(gojoFerido);
+        
+        System.out.println("\n>> Fechando domínios:");
+        gojoFerido.getTecnica().FecharDominio();
+        sukunaFerido.getTecnica().FecharDominio();
+        
+        System.out.println("\n>> Ataque após fechar domínio (esquiva volta a funcionar):");
+        gojoFerido.usarTecnicaInata(sukunaFerido);
+        
+        System.out.println("\n>> Demonstração completa de Expansão de Domínio:");
+        System.out.println("[OK] Requisitos: Vida < 30 e Energia >= 50");
+        System.out.println("[OK] Custo: 50 de energia");
+        System.out.println("[OK] Efeito: Acerto garantido (ignora sistema de esquiva)");
+        System.out.println("[OK] Métodos: ExpandirDominio(), FecharDominio(), isInDomain()");
+        System.out.println();
+        
+        // ========== DEMONSTRAÇÃO 20: TODAS AS 14 TÉCNICAS ==========
+        System.out.println("--- 20. DEMONSTRAÇÃO DE TODAS AS TÉCNICAS ---");
+        System.out.println("\nExibindo todas as 14 técnicas disponíveis:");
+        
+        String[] todasTecnicas = {
+            "Ilimitado - Azul!",
+            "Transfiguração Inerte - Tocado na alma!",
+            "Santuário - Desmantelar!",
+            "Príncipe dos Raios Negros - Foco total! (50% Kokusen)",
+            "Dez Sombras - Mahoraga!",
+            "Proporção - 7:3!",
+            "Fala Amaldiçoada - Exploda!",
+            "Boogie Woogie - Palmas!",
+            "Feitiço de Projeção - 24 frames!",
+            "Manipulação de Sangue - Sangue perfurante!",
+            "Manipulação de Espíritos Amaldiçoados - Uzumaki!",
+            "Chamas do Desastre - Meteoro!",
+            "Construção - Floresta!",
+            "Cópia - Copia técnica do oponente"
+        };
+        
+        for (int i = 0; i < todasTecnicas.length; i++) {
+            System.out.println((i + 1) + ". " + todasTecnicas[i]);
+        }
+        
+        System.out.println("\n>> Testando técnica Cópia:");
+        Feiticeiro yuuta = new Feiticeiro(
+            "Yuuta Okkotsu", 
+            100, 
+            Grau.Grau_Esp, 
+            12, 
+            130, 
+            11, 
+            ListaTecnicas.COPIA.getTecnica()
+        );
+        
+        Maldicao rika = new Maldicao(
+            "Rika", 
+            90, 
+            Grau.Grau_Esp, 
+            14, 
+            120, 
+            9, 
+            ListaTecnicas.CHAMAS_DO_DESASTRE.getTecnica()
+        );
+        
+        System.out.println(yuuta.getNome() + " possui: " + yuuta.getTecnica().getNome());
+        System.out.println(rika.getNome() + " possui: " + rika.getTecnica().getNome());
+        
+        System.out.println("\n" + yuuta.getNome() + " usa Cópia em " + rika.getNome() + ":");
+        yuuta.usarTecnicaInata(rika);
+        System.out.println("Técnica de " + yuuta.getNome() + " agora: " + yuuta.getTecnica().getNome());
         System.out.println();
         
         // ========== RESUMO FINAL ==========
         System.out.println("=== RESUMO FINAL DA DEMONSTRAÇÃO ===");
-        System.out.println("✓ Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
-        System.out.println("✓ Encapsulamento: Atributos privados/protected com getters/setters");
-        System.out.println("✓ Herança: Jogador (abstrata) → Feiticeiro e Maldicao");
-        System.out.println("✓ Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
-        System.out.println("✓ Interface própria: Regeneravel implementada por Feiticeiro e Maldicao");
-        System.out.println("✓ Enums: Grau e ListaTecnicas");
-        System.out.println("✓ Collections: List em Partida, Map em Placar, verificação de duplicidade");
-        System.out.println("✓ Ordenação: jogadores.sort() por agilidade em Partida");
-        System.out.println("✓ Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores), N:N (Jogador-Partida via Participacao)");
-        System.out.println("✓ Sistema de Esquiva: Baseado em agilidade + dado (1-10) para socos E técnicas");
-        System.out.println("✓ Regeneração: Interface Regeneravel com validação e custo dinâmico (Feiticeiro 2:1, Maldição 1:1)");
-        System.out.println("✓ Sistema de Pontuação: Soco (10), Kokusen (100), Técnica (20)");
-        System.out.println("✓ Validações: Energia suficiente, jogador vivo, limites de recursos, duplicidade");
+        System.out.println("[OK] Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
+        System.out.println("[OK] Encapsulamento: Atributos privados/protected com getters/setters");
+        System.out.println("[OK] Herança: Jogador (abstrata) -> Feiticeiro e Maldicao");
+        System.out.println("[OK] Polimorfismo: usarTecnicaInata() sobrescrito, referências de Jogador");
+        System.out.println("[OK] Interface própria: Regeneravel implementada por Feiticeiro e Maldicao");
+        System.out.println("[OK] Enums: Grau e ListaTecnicas");
+        System.out.println("[OK] Collections: List em Partida, Map em Placar, verificação de duplicidade");
+        System.out.println("[OK] Ordenação: jogadores.sort() por agilidade em Partida");
+        System.out.println("[OK] Relacionamentos: 1:1 (Partida-Placar), 1:N (Partida-Jogadores), N:N (Jogador-Partida via Participacao)");
+        System.out.println("[OK] Sistema de Esquiva: Baseado em agilidade + dado (1-10) para socos E técnicas");
+        System.out.println("[OK] Regeneração: Interface Regeneravel com validação e custo dinâmico (Feiticeiro 2:1, Maldição 1:1)");
+        System.out.println("[OK] Expansão de Domínio: Requer vida < 30 e 50 energia, garante acerto de técnicas");
+        System.out.println("[OK] 14 Técnicas Únicas: Cada uma com mensagem personalizada e efeitos especiais");
+        System.out.println("[OK] Técnica Cópia: Permite copiar a técnica do oponente durante combate");
+        System.out.println("[OK] Sistema de Pontuação: Soco (10), Kokusen (100), Técnica (20)");
+        System.out.println("[OK] Validações: Energia suficiente, jogador vivo, limites de recursos, duplicidade");
         System.out.println("\n=== FIM DO ROTEIRO ===");
     }
 }
