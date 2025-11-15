@@ -11,7 +11,7 @@ Jogo de batalha por turnos inspirado em Jujutsu Kaisen, implementado em Java com
 - **Técnicas Inatas**: 14 técnicas únicas com poderes especiais
 - **Kokusen**: Ataque crítico poderoso (chance de ativar em zona)
 - **Sistema de Zona**: Estado temporário que aumenta chance de Kokusen
-- **Expansão de Domínio**: Acerto garantido (requer vida < 30 e 50 de energia)
+- **Expansão de Domínio**: O jujutsu de mais alto nível! Última cartada estratégica que garante acerto de todas as técnicas (requer vida < 30 e 50 de energia)
 - **Esquiva**: Baseada em agilidade + dado (1-10)
 
 ### Sistema de Energia
@@ -162,7 +162,7 @@ Se Total Defensor > Total Atacante → DESVIO
 Senão → ACERTO
 ```
 
-**Exceção:** Em Expansão de Domínio, todos os ataques acertam automaticamente.
+**Exceção:** Em Expansão de Domínio (o jujutsu de mais alto nível), todos os ataques acertam automaticamente - a última cartada estratégica quando a batalha está crítica!
 
 ### Graus de Poder
 - **Grau 4** - Mais fraco
@@ -187,7 +187,7 @@ Escolha uma ação:
 2 - Usar Técnica Inata
 3 - Concentrar Energia
 4 - Regenerar Vida
-5 - Expandir Domínio
+5 - Expandir Domínio (última cartada - requer vida < 30 e 50 energia)
 
 > 2
 
