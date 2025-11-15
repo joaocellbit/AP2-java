@@ -1,6 +1,7 @@
 import Jogador.Jogador;
 import Jogador.Placar;
 import Jogador.Regeneravel;
+import Jogador.Tecnica;
 import java.util.*;
 
 
@@ -69,6 +70,62 @@ public class Partida implements Comparator<Jogador> {
     public void passarTurno() {
 
         this.turno += 1;
+    }
+
+    private void batalhaDeDominio(Jogador jogador1, Jogador jogador2) {
+        System.out.println("\n========================================");
+        System.out.println("CHOQUE DE DOMÍNIOS!");
+        System.out.println("========================================");
+        System.out.println(jogador1.getNome() + " vs " + jogador2.getNome());
+        System.out.println("Primeiro a vencer 3 rodadas ganha a batalha!");
+        
+        Tecnica.setDomainClash(true);
+        jogador1.getTecnica().resetVitoriasClash();
+        jogador2.getTecnica().resetVitoriasClash();
+        
+        while (jogador1.getTecnica().getVitoriasClash() < 3 && jogador2.getTecnica().getVitoriasClash() < 3) {
+            System.out.println("\n--- Rodada do Choque ---");
+            
+            // Dado de 10 lados + poder da técnica
+            int dado1 = (int) (Math.random() * 10) + 1;
+            int dado2 = (int) (Math.random() * 10) + 1;
+            
+            int total1 = dado1 + jogador1.getTecnica().getPoder();
+            int total2 = dado2 + jogador2.getTecnica().getPoder();
+            
+            System.out.println(jogador1.getNome() + ": Dado(" + dado1 + ") + Poder(" + jogador1.getTecnica().getPoder() + ") = " + total1);
+            System.out.println(jogador2.getNome() + ": Dado(" + dado2 + ") + Poder(" + jogador2.getTecnica().getPoder() + ") = " + total2);
+            
+            if (total1 > total2) {
+                jogador1.getTecnica().addVitoriaClash();
+                System.out.println(jogador1.getNome() + " vence esta rodada! (" + 
+                                   jogador1.getTecnica().getVitoriasClash() + "/3)");
+            } else if (total2 > total1) {
+                jogador2.getTecnica().addVitoriaClash();
+                System.out.println(jogador2.getNome() + " vence esta rodada! (" + 
+                                   jogador2.getTecnica().getVitoriasClash() + "/3)");
+            } else {
+                System.out.println("EMPATE! Ninguém ganha ponto nesta rodada.");
+            }
+        }
+        
+        System.out.println("\n========================================");
+        if (jogador1.getTecnica().getVitoriasClash() == 3) {
+            System.out.println(jogador1.getNome() + " VENCEU A BATALHA DE DOMÍNIOS!");
+            System.out.println(jogador1.getNome() + " mantém seu domínio expandido!");
+            System.out.println(jogador2.getNome() + " perdeu 50 de energia e não consegue expandir!");
+            jogador1.getTecnica().ExpandirDominio();
+            jogador2.getTecnica().FecharDominio();
+        } else {
+            System.out.println(jogador2.getNome() + " VENCEU A BATALHA DE DOMÍNIOS!");
+            System.out.println(jogador2.getNome() + " mantém seu domínio expandido!");
+            System.out.println(jogador1.getNome() + " perdeu 50 de energia e não consegue expandir!");
+            jogador2.getTecnica().ExpandirDominio();
+            jogador1.getTecnica().FecharDominio();
+        }
+        System.out.println("========================================\n");
+        
+        Tecnica.setDomainClash(false);
     }
 
     public void acoesTurno() {
@@ -141,9 +198,24 @@ public class Partida implements Comparator<Jogador> {
                            System.out.println("Você precisa de 50 de energia para expandir o domínio!");
                            System.out.println("Energia atual: " + jogador.getEnergia());
                        } else {
-                           jogador.getTecnica().ExpandirDominio();
-                           jogador.setEnergia(-50);
-                           System.out.println("Energia restante: " + jogador.getEnergia());
+                           Jogador oponente = jogadores.get(i == 0 ? 1 : 0);
+                           
+                           // Verifica se o oponente já está com domínio expandido
+                           if (oponente.getTecnica().isInDomain()) {
+                               System.out.println("\n[ALERTA] " + oponente.getNome() + " já está com domínio expandido!");
+                               System.out.println("Iniciando CHOQUE DE DOMÍNIOS...");
+                               
+                               // Ambos gastam energia
+                               jogador.setEnergia(-50);
+                               
+                               // Inicia batalha de domínio
+                               batalhaDeDominio(jogador, oponente);
+                           } else {
+                               // Expansão normal
+                               jogador.getTecnica().ExpandirDominio();
+                               jogador.setEnergia(-50);
+                               System.out.println("Energia restante: " + jogador.getEnergia());
+                           }
                        }
                        break;
                    default:

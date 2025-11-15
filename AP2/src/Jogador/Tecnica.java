@@ -4,6 +4,8 @@ public class Tecnica {
     private String nome;
     private int poder;
     private boolean IsInDomain;
+    private static boolean IsDomainClash = false;
+    private int vitoriasClash = 0;
 
     public Tecnica(String nome,int poder){
         this.nome = nome;
@@ -19,16 +21,37 @@ public class Tecnica {
     public void ExpandirDominio() {
         this.IsInDomain = true;
         System.out.println("Expansão de Domínio!");
-        System.out.println("⚡ Acerto garantido ativado! ⚡");
+        System.out.println("Acerto garantido ativado!");
     }
     
     public void FecharDominio() {
         this.IsInDomain = false;
+        this.vitoriasClash = 0;
         System.out.println("Domínio fechado.");
     }
     
     public boolean isInDomain() {
         return IsInDomain;
+    }
+    
+    public static boolean isDomainClash() {
+        return IsDomainClash;
+    }
+    
+    public static void setDomainClash(boolean clash) {
+        IsDomainClash = clash;
+    }
+    
+    public int getVitoriasClash() {
+        return vitoriasClash;
+    }
+    
+    public void addVitoriaClash() {
+        this.vitoriasClash++;
+    }
+    
+    public void resetVitoriasClash() {
+        this.vitoriasClash = 0;
     }
     
     public int UsarTecnica(Jogador inimigo,Jogador Usuario, int consumo) {

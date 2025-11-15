@@ -597,6 +597,93 @@ public class Roteiro {
         System.out.println("Técnica de " + yuuta.getNome() + " agora: " + yuuta.getTecnica().getNome());
         System.out.println();
         
+        // ========== DEMONSTRAÇÃO 21: CHOQUE DE DOMÍNIOS (DOMAIN CLASH) ==========
+        System.out.println("\n========== DEMONSTRAÇÃO 21: CHOQUE DE DOMÍNIOS ==========");
+        System.out.println("Simulando cenário onde ambos expandem domínio ao mesmo tempo\n");
+        
+        Feiticeiro satoru2 = new Feiticeiro("Gojo Satoru", 100, Grau.Grau_Esp, 10, 50, 8,
+            new Tecnica("Ilimitado", 20));
+        Feiticeiro geto2 = new Feiticeiro("Geto Suguru", 100, Grau.Grau_Esp, 8, 50, 7,
+            new Tecnica("Manipulacao de espiritos amaldicoados", 20));
+        
+        // Ambos ficam com vida crítica
+        satoru2.setVidaAtual(-22); // Fica com 28
+        geto2.setVidaAtual(-23); // Fica com 27
+        
+        System.out.println("Status inicial:");
+        System.out.println(satoru2.getNome() + " - Vida: " + satoru2.getVidaAtual() + ", Energia: " + satoru2.getEnergia());
+        System.out.println(geto2.getNome() + " - Vida: " + geto2.getVidaAtual() + ", Energia: " + geto2.getEnergia());
+        
+        // Primeiro jogador expande domínio
+        System.out.println("\n" + satoru2.getNome() + " expande seu domínio primeiro:");
+        satoru2.getTecnica().ExpandirDominio();
+        satoru2.setEnergia(-50);
+        System.out.println("Energia restante: " + satoru2.getEnergia());
+        
+        // Segundo jogador tenta expandir e causa Domain Clash
+        System.out.println("\n" + geto2.getNome() + " tenta expandir seu domínio também:");
+        if (satoru2.getTecnica().isInDomain()) {
+            System.out.println("[ALERTA] " + satoru2.getNome() + " já está com domínio expandido!");
+            System.out.println("Iniciando CHOQUE DE DOMÍNIOS...");
+            geto2.setEnergia(-50);
+            
+            // Simulação manual da batalha de domínio
+            System.out.println("\n========================================");
+            System.out.println("CHOQUE DE DOMÍNIOS!");
+            System.out.println("========================================");
+            System.out.println(geto2.getNome() + " vs " + satoru2.getNome());
+            System.out.println("Primeiro a vencer 3 rodadas ganha a batalha!");
+            
+            satoru2.getTecnica().resetVitoriasClash();
+            geto2.getTecnica().resetVitoriasClash();
+            
+            int rodada = 1;
+            while (satoru2.getTecnica().getVitoriasClash() < 3 && geto2.getTecnica().getVitoriasClash() < 3) {
+                System.out.println("\n--- Rodada " + rodada + " do Choque ---");
+                
+                int dado1 = (int) (Math.random() * 10) + 1;
+                int dado2 = (int) (Math.random() * 10) + 1;
+                
+                int total1 = dado1 + satoru2.getTecnica().getPoder();
+                int total2 = dado2 + geto2.getTecnica().getPoder();
+                
+                System.out.println(satoru2.getNome() + ": Dado(" + dado1 + ") + Poder(" + satoru2.getTecnica().getPoder() + ") = " + total1);
+                System.out.println(geto2.getNome() + ": Dado(" + dado2 + ") + Poder(" + geto2.getTecnica().getPoder() + ") = " + total2);
+                
+                if (total1 > total2) {
+                    satoru2.getTecnica().addVitoriaClash();
+                    System.out.println(satoru2.getNome() + " vence esta rodada! (" + 
+                                       satoru2.getTecnica().getVitoriasClash() + "/3)");
+                } else if (total2 > total1) {
+                    geto2.getTecnica().addVitoriaClash();
+                    System.out.println(geto2.getNome() + " vence esta rodada! (" + 
+                                       geto2.getTecnica().getVitoriasClash() + "/3)");
+                } else {
+                    System.out.println("EMPATE! Ninguém ganha ponto nesta rodada.");
+                }
+                rodada++;
+            }
+            
+            System.out.println("\n========================================");
+            if (satoru2.getTecnica().getVitoriasClash() == 3) {
+                System.out.println(satoru2.getNome() + " VENCEU A BATALHA DE DOMÍNIOS!");
+                System.out.println(satoru2.getNome() + " mantém seu domínio expandido!");
+                System.out.println(geto2.getNome() + " perdeu 50 de energia e não consegue expandir!");
+                geto2.getTecnica().FecharDominio();
+            } else {
+                System.out.println(geto2.getNome() + " VENCEU A BATALHA DE DOMÍNIOS!");
+                System.out.println(geto2.getNome() + " mantém seu domínio expandido!");
+                System.out.println(satoru2.getNome() + " perdeu 50 de energia e não consegue expandir!");
+                satoru2.getTecnica().FecharDominio();
+            }
+            System.out.println("========================================\n");
+        }
+        
+        System.out.println("\nStatus final:");
+        System.out.println(satoru2.getNome() + " - Domínio ativo: " + satoru2.getTecnica().isInDomain() + ", Energia: " + satoru2.getEnergia());
+        System.out.println(geto2.getNome() + " - Domínio ativo: " + geto2.getTecnica().isInDomain() + ", Energia: " + geto2.getEnergia());
+        System.out.println("[OK] Sistema de Domain Clash implementado!");
+        
         // ========== RESUMO FINAL ==========
         System.out.println("=== RESUMO FINAL DA DEMONSTRAÇÃO ===");
         System.out.println("[OK] Abstração: Classes Jogador, Feiticeiro, Maldicao, Tecnica, Partida, etc.");
@@ -611,6 +698,7 @@ public class Roteiro {
         System.out.println("[OK] Sistema de Esquiva: Baseado em agilidade + dado (1-10) para socos E técnicas");
         System.out.println("[OK] Regeneração: Interface Regeneravel com validação e custo dinâmico (Feiticeiro 2:1, Maldição 1:1)");
         System.out.println("[OK] Expansão de Domínio: Requer vida < 30 e 50 energia, garante acerto de técnicas");
+        System.out.println("[OK] Domain Clash: Batalha de domínios quando ambos expandem (3 vitórias em dados + poder)");
         System.out.println("[OK] 14 Técnicas Únicas: Cada uma com mensagem personalizada e efeitos especiais");
         System.out.println("[OK] Técnica Cópia: Permite copiar a técnica do oponente durante combate");
         System.out.println("[OK] Sistema de Pontuação: Soco (10), Kokusen (100), Técnica (20)");
